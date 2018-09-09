@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../static/theme/css/bootstrap.css"><!--debug-->
+    <link rel="stylesheet" href="../../../static/theme/font/fontawesome/css/all.css"><!--debug-->
+</head>
+<body>
+
+<input th:fragment="tokenInput" type="hidden" id="_csrfInputId" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+</body>
+</html>

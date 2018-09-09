@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../static/theme/css/bootstrap.css"><!--debug-->
+    <link rel="stylesheet" href="../../../static/theme/font/fontawesome/css/all.css"><!--debug-->
+</head>
+
+<!--jquery js only-->
+<th:block th:fragment="jsJquery">
+    <script type="text/javascript" th:src="@{~/js/jquery.min.js}"></script>
+</th:block>
+
+<!--popper js only-->
+<th:block th:fragment="jsPopper">
+    <script type="text/javascript" th:src="@{~/js/popper.min.js}"></script>
+</th:block>
+
+<!--bootstrap js only-->
+<th:block th:fragment="jsBootstrap">
+    <script type="text/javascript" th:src="@{~/theme/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{~/theme/js/bootstrap.bundle.js}"></script>
+</th:block>
+
+<!--all js-->
+<th:block th:fragment="jsAll">
+    <th:block th:replace="includes/service/js :: jsJquery"/>
+    <th:block th:replace="includes/service/js :: jsPopper"/>
+    <th:block th:replace="includes/service/js :: jsBootstrap"/>
+</th:block>
+
+</html>

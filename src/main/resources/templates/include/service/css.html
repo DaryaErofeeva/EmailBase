@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../static/theme/css/bootstrap.css"><!--debug-->
+    <link rel="stylesheet" href="../../../static/theme/font/fontawesome/css/all.css"><!--debug-->
+</head>
+
+<!--bootstrap css only-->
+<th:block th:fragment="cssBootstrap">
+    <link rel="stylesheet" th:href="@{~/theme/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{~/theme/css/bootstrap-grid.css}"/>
+    <link rel="stylesheet" th:href="@{~/theme/css/bootstrap-reboot.css}"/>
+</th:block>
+
+<!--font awesome (icons) css-->
+<th:block th:fragment="cssFontAwesome">
+    <link rel="stylesheet" th:href="@{~/theme/theme/font/fontawesome/css/all.css}"/>
+</th:block>
+
+<!--all css-->
+<th:block th:fragment="cssFull">
+    <th:block th:include="includes/service/css :: cssBootstrap"/>
+    <th:block th:include="includes/service/css :: cssFontAwesome"/>
+</th:block>
+
+</html>

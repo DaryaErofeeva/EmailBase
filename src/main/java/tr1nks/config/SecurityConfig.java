@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PersonController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN, SiteRolesEnum.USER))
                 .antMatchers(DomainController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN))
                 .antMatchers(ParseController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN, SiteRolesEnum.USER))
+                .antMatchers(CommonController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN, SiteRolesEnum.USER))
                 .antMatchers(Controller.LOGIN_URL + "/**").permitAll()
                 .and().formLogin()
                 .loginPage(Controller.LOGIN_URL)
