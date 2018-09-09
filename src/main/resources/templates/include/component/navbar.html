@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../static/theme/css/bootstrap.css"><!--debug-->
+    <link rel="stylesheet" href="../../../static/theme/fonts/font-awesome/css/fontawesome-all.css"><!--debug-->
+</head>
+
+<body>
+
+<!--profile menu-->
+<th:block th:fragment="profileUl">
+    <ul class="navbar-nav mr-auto col-2">
+        <th:block sec:authorize="!isAuthenticated()">
+            <th:block th:replace="include/component/navbar :: navLi('/login','login','fas fa-sign-in-alt')"/>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+            <li class="nav-item">
+                <form th:action="@{/logout}" method="post">
+                    <th:block th:replace="/include/service/csrf :: tokenInput"/>
+                    <button type="submit" class="fas fa-sign-out-alt bg-dark border-0 nav-link " th:text="logout"></button>
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
+
+<!--navigation bar with icon, navigation menu, search and profile-->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!--<th:block th:replace="includes/components/icon :: iconSmall('/c/main','/theme/img/logo.png')"/>-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="navbar-toggler-icon"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <th:block th:include="include/component/navbar :: navUl"/>
+        <!--search-->
+        <th:block th:include="include/component/navbar :: profileUl"/>
+    </div>
+</nav>
+
+<!--navigation menu-->
+<th:block th:fragment="navUl">
+    <ul class="navbar-nav mr-auto col-10">
+        <th:block th:replace="include/component/navbar :: navLi('/common/main','main','fas fa-home')"/>
+        <th:block th:replace="include/component/navbar :: navLi('/parse/upload','Upload','fas fa-upload')"/>
+        <th:block th:replace="include/component/navbar :: navLi('/person/student','Students','fas fa-user-graduate')"/>
+
+        <th:block sec:authorize="${hasRole(T(tr1nks.enums.UserRole).ADMIN.getRoleWithPrefix())}"
+                  th:replace="include/component/navbar :: navLi('/a/administration','Domen','fas fa-cogs')"/>
+    </ul>
+</th:block>
+
+<!--nav li with address checking-->
+<th:block th:fragment="navLi(address,text,iconName)">
+    <li class="nav-item">
+        <!--todo not work properly - not change lint to span if on page-->
+        <span th:if="${#strings.startsWith('__${#httpServletRequest.requestURI}__','__${liAddr}__')}"
+              th:text="' '+${text}" th:class="'bg-dark active nav-link '+${iconName}">s</span>
+
+        <a th:unless="${#strings.startsWith('__${#httpServletRequest.requestURI}__','__${liAddr}__')}"
+           th:href="@{${address}}" th:text="' '+${text}"
+           th:class="'bg-dark nav-link '+${iconName}">a</a>
+    </li>
+</th:block>
+
+</body>
+</html>
+

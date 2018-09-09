@@ -7,7 +7,8 @@
 </head>
 <body>
 
-<input th:fragment="tokenInput" type="hidden" id="_csrfInputId" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<input th:fragment="tokenInput" type="hidden" id="_csrfInputId" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 </body>
 </html>

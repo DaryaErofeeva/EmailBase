@@ -14,7 +14,7 @@ import tr1nks.controller.common.CommonController;
 import tr1nks.controller.domain.DomainController;
 import tr1nks.controller.parse.ParseController;
 import tr1nks.controller.person.PersonController;
-import tr1nks.domain.entity.enums.SiteRolesEnum;
+import tr1nks.enums.UserRole;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomAuthenticationProvider customAuthProvider;
 
 
-    private String hasAnyRole(SiteRolesEnum... roles) {
+    private String hasAnyRole(UserRole... roles) {
         StringBuilder builder = new StringBuilder(HAS_ANY_ROLE);
         Arrays.stream(roles).forEach(r -> builder.append(r.getRoleWithPrefix()).append(COMMA));
         return builder.replace(builder.lastIndexOf(COMMA), builder.lastIndexOf(COMMA) + 4, TAIL).toString();
@@ -50,10 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity security) throws Exception {
         security.authorizeRequests()
-                .antMatchers(PersonController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN, SiteRolesEnum.USER))
-                .antMatchers(DomainController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN))
-                .antMatchers(ParseController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN, SiteRolesEnum.USER))
-                .antMatchers(CommonController.URL_BASE + ANY).access(hasAnyRole(SiteRolesEnum.ADMIN, SiteRolesEnum.USER))
+                .antMatchers(PersonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
+                .antMatchers(DomainController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN))
+                .antMatchers(ParseController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
+                .antMatchers(CommonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(Controller.LOGIN_URL + "/**").permitAll()
                 .and().formLogin()
                 .loginPage(Controller.LOGIN_URL)
@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             builder.inMemoryAuthentication()
                     .withUser(emailRootAdmin)
                     .password(passwordRootAdmin)
-                    .roles(SiteRolesEnum.ADMIN.getRole(), SiteRolesEnum.USER.getRole());
+                    .roles(UserRole.ADMIN.getRole(), UserRole.USER.getRole());
         }
         builder.authenticationProvider(customAuthProvider);
     }

@@ -1,6 +1,6 @@
-package tr1nks.domain.entity.enums;
+package tr1nks.enums;
 
-public enum SiteRolesEnum {
+public enum UserRole {
     ADMIN,
     USER;
 

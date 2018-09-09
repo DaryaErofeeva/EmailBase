@@ -1,7 +1,7 @@
 package tr1nks.domain.entity;
 
 
-import tr1nks.domain.entity.enums.SiteRolesEnum;
+import tr1nks.enums.UserRole;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -18,7 +18,7 @@ public class UserEntity extends MyEntity {
     @Basic
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private SiteRolesEnum role;
+    private UserRole role;
     @Basic
     @Column(name = "enabled", nullable = false, columnDefinition = "bit(1) default false")
     private boolean enabled;
@@ -32,7 +32,7 @@ public class UserEntity extends MyEntity {
     @Column(name = "uuid")
     private UUID userUUID;
 
-    public UserEntity(String email, String password, SiteRolesEnum role, boolean enabled, String name, String surname, UUID userUUID) {
+    public UserEntity(String email, String password, UserRole role, boolean enabled, String name, String surname, UUID userUUID) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -62,11 +62,11 @@ public class UserEntity extends MyEntity {
         this.password = password;
     }
 
-    public SiteRolesEnum getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(SiteRolesEnum role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

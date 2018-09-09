@@ -11,14 +11,14 @@
 
 <!--min header, without any css-->
 <head th:fragment="headMin(title)">
-    <meta th:include="includes/service/head :: meta">
+    <meta th:include="include/service/head :: meta">
     <title th:text="${title} ?: ''">Template Layout Title</title>
 </head>
 
 <!--full head with all css-->
 <head th:fragment="headFull(title)">
-    <th:block th:include="includes/service/head :: headMin(${title})"/>
-    <th:block th:include="includes/service/css :: cssFull"/>
+    <th:block th:include="include/service/head :: headMin(${title})"/>
+    <th:block th:include="include/service/css :: cssFull"/>
 </head>
 
 </html>

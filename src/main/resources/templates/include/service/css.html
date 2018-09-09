@@ -15,13 +15,13 @@
 
 <!--font awesome (icons) css-->
 <th:block th:fragment="cssFontAwesome">
-    <link rel="stylesheet" th:href="@{~/theme/theme/font/fontawesome/css/all.css}"/>
+    <link rel="stylesheet" th:href="@{~/theme/font/fontawesome/css/all.css}"/>
 </th:block>
 
 <!--all css-->
 <th:block th:fragment="cssFull">
-    <th:block th:include="includes/service/css :: cssBootstrap"/>
-    <th:block th:include="includes/service/css :: cssFontAwesome"/>
+    <th:block th:include="include/service/css :: cssBootstrap"/>
+    <th:block th:include="include/service/css :: cssFontAwesome"/>
 </th:block>
 
 </html>

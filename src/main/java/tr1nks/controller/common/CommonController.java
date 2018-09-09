@@ -4,7 +4,7 @@ import tr1nks.controller.Controller;
 
 public interface CommonController extends Controller {
     String VIEW_BASE = "common/";
-    String URL_BASE = "/";
+    String URL_BASE = "/common/";
 
     String INDEX_PAGE_URL = URL_BASE + "index";
     String INDEX_VIEW_NAME = VIEW_BASE + "index";
