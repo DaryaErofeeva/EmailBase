@@ -3,7 +3,7 @@ package tr1nks.domain.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "student")
+@Table(name = "person")
 public class StudentEntity extends PersonEntity {
     @Basic
     @ManyToOne

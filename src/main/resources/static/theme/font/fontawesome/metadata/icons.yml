@@ -5765,7 +5765,7 @@ graduation-cap:
     terms:
       - learning
       - school
-      - student
+      - person
   styles:
     - solid
   unicode: f19d
@@ -12985,7 +12985,7 @@ user-graduate:
       - commencement
       - gown
       - graduation
-      - student
+      - person
   styles:
     - solid
   unicode: f501
