@@ -1,5 +1,7 @@
 package tr1nks.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +9,7 @@ import javax.persistence.*;
 public class StudentEntity extends PersonEntity {
     @Basic
     @ManyToOne
+    @JsonIgnore//todo remove
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     private GroupEntity groupEntity;
     @Basic
