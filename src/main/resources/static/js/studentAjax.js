@@ -14,11 +14,6 @@ function sendAjax(url,method,data,handler){
         $(row).append($('<td>',{text: item}));
       });
       // $(row).append($('<td>',{text: $(this)[0].id}));
-      // $(row).append($('<td>',{text: $(this)[0].surname}));
-      // $(row).append($('<td>',{text: $(this)[0].name}));
-      // $(row).append($('<td>',{text: $(this)[0].patronymic}));
-      // $(row).append($('<td>',{text: $(this)[0].code}));
-      // $(row).append($('<td>',{text: $(this)[0].login}));
       return row;
   }
 })( jQuery );

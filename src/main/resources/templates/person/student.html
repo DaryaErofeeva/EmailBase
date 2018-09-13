@@ -12,12 +12,11 @@
 
 <button type="button" name="test-button" id="test-button">test</button>
 
-    <table id="person-table">
-<!--ajax filled-->
-    </table>
-
-    <form th:action="@{/person/student/json}" id="student-page-form" method="post">
-        <input type="text" name="input-1" value="1">
+    <form th:action="@{/person/student/json}" th:object="${studentPageModel}" id="student-page-form" method="post">
+        <table id="person-table">
+            <!--ajax filled-->
+        </table>
+        <input type="text" th:field="*{page}">
         <button type="submit">submit</button>
     </form>
 
