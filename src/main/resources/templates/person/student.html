@@ -10,8 +10,6 @@
 <header th:replace="include/component/header :: header"></header>
 <div>
 
-<button type="button" name="test-button" id="test-button">test</button>
-
     <form th:action="@{/person/student/json}" th:object="${studentPageModel}" id="student-page-form" method="post">
         <table id="person-table">
             <!--ajax filled-->
