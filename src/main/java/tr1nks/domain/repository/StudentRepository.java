@@ -1,8 +1,6 @@
 package tr1nks.domain.repository;
 
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,15 +11,6 @@ import javax.persistence.criteria.Path;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<StudentEntity, Long>, JpaSpecificationExecutor<StudentEntity> {
-    StudentEntity getFirstByLogin(String login);
-
-    StudentEntity getFirstByCode(String code);
-
-    StudentEntity getById(Long id);
-
-    StudentEntity getBySurnameAndNameAndGroupEntity(String surname, String name, GroupEntity groupEntity);
-
-    Page<StudentEntity> getAllByIdIn(List<Long> ids, Pageable pageable);
 
     class StudentSpecifications {
         public static Specification<StudentEntity> hasFacultyIdIn(List<Integer> ids) {

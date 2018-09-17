@@ -9,4 +9,5 @@ public interface PersonController extends Controller {
     String STUDENT_PAGE_URL = URL_BASE + "student";
     String STUDENT_VIEW_NAME = VIEW_BASE + "student";
     String STUDENT_FILTER_MODEL_NAME = "studentFilterSetModel";
+    String STUDENT_SPECIFICATION_SESSION_NAME = "studentFilterSetModel";
 }

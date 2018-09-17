@@ -9,20 +9,6 @@ import tr1nks.domain.entity.*;
 import javax.persistence.criteria.Join;
 
 public interface GroupRepository extends JpaRepository<GroupEntity, Long>, JpaSpecificationExecutor<GroupEntity> {
-    GroupEntity getByStudyLevelEntityAndFacultyEntityAndSpecializationEntityAndYearAndNum(
-            StudyLevelEntity studyLevelEntity,
-            FacultyEntity facultyEntity,
-            SpecializationEntity specializationEntity,
-            Integer year,
-            Integer num);
-
-    GroupEntity getByStudyLevelEntity_LevelIdAndFacultyEntity_FacultyIdAndSpecializationEntity_SpecialityEntity_SpecialityIdAndSpecializationEntity_SpecializationIdAndYearAndNum(
-            int studyLevelEntityLevelId,
-            int facultyEntityFacultyId,
-            int specializationEntitySpecialityEntitySpecialityId,
-            int specializationEntitySpecializationId,
-            int year,
-            int num);
 
     class GroupSpecifications {                                //8.04.122.10.18.2
         public static Specification<GroupEntity> hasStudyLevelId(int studyLevelId) {

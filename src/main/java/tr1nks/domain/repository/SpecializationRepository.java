@@ -12,7 +12,6 @@ import tr1nks.domain.entity.SpecializationEntity_;
 import javax.persistence.criteria.Join;
 
 public interface SpecializationRepository extends JpaRepository<SpecializationEntity, Long>, JpaSpecificationExecutor<SpecializationEntity> {
-    SpecializationEntity getBySpecializationIdAndSpecialityEntity(Integer SpecializationId, SpecialityEntity specialityEntity);
 
     class SpecializationEntitySpecifications {
 
