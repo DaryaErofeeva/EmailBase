@@ -12,7 +12,9 @@ public abstract class PersonDTO extends MyDTO {
     private boolean imagine;
     private boolean office;
     //non entity fields
-    boolean checked;
+    private boolean checked;
+    private int errorFieldIndex = -1;
+    private String errorMessage;
 
     public PersonDTO(PersonEntity entity) {
         super(entity);
@@ -114,5 +116,21 @@ public abstract class PersonDTO extends MyDTO {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public int getErrorFieldIndex() {
+        return errorFieldIndex;
+    }
+
+    public void setErrorFieldIndex(int errorFieldIndex) {
+        this.errorFieldIndex = errorFieldIndex;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
