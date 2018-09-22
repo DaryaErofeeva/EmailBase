@@ -5,19 +5,30 @@
     <link rel="stylesheet" href="../../static/theme/css/bootstrap.css"><!--debug-->
     <link rel="stylesheet" href="../../static/theme/font/fontawesome/css/all.css"><!--debug-->
 </head>
-<script type="text/javascript" th:src="@{~/js/studentAjax.js}"></script>
 <body>
 <header th:replace="include/component/header :: header"></header>
 <div>
-
-    <form th:action="@{/person/student/json}" th:object="${studentPageModel}" id="student-page-form" method="post">
-        <table id="person-table">
-            <!--ajax filled-->
-        </table>
-        <input type="text" th:field="*{page}">
-        <button type="submit">submit</button>
-    </form>
-
+    <hr class="col-10 offset-1">
+    <div class="col-10 offset-1 mx-auto">
+        <form th:action="@{/person/student/json}" id="student-page-form" method="post">
+            <table id="person-table" class="table table-hover table-sm">
+                <thead></thead>
+                <tbody></tbody>
+                <!--ajax filled-->
+            </table>
+        </form>
+        <div id="page-controlling-div" class="mx-auto col-3">
+            <button class="fas fa-arrow-alt-circle-left btn btn-success d-inline" id="previous-page"></button>
+            <input type="text" readonly id="page-number" class="input col-2 d-inline">
+            <button class="fas fa-arrow-alt-circle-right btn btn-success d-inline" id="next-page"></button>
+        </div>
+    </div>
+    <div id="studentJsIncluding" class="d-none">
+        <script type="text/javascript" th:src="@{~/js/student.js}"></script>
+        <script th:inline="javascript">
+            processStudentPageModel(/*[[${studentPageModel}]]*/)
+        </script>
+    </div>
 </div>
 <footer></footer>
 </body>

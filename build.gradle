@@ -42,7 +42,7 @@ ext {
     mysqlConnectorJavaVersion = '5.1.34'//8.0.11
     httpclientVersion = '4.5.3'
     iTextPdfVersion = "5.5.11"
-    flyingSaucerPdf = "9.1.6"
+    log4jVersion = "1.2.17"
     thymeleafExtrasSpringsecurity4Version = "3.0.2.RELEASE"
 }
 dependencies {

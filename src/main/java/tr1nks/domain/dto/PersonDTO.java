@@ -58,6 +58,18 @@ public abstract class PersonDTO extends MyDTO {
         this.imagine = imagine;
         this.office = office;
     }
+    public PersonDTO(long id,String surname, String name, String patronymic, String code, String login,
+                     String initPassword, boolean imagine, boolean office) {
+        super(id);
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.code = code;
+        this.login = login;
+        this.initPassword = initPassword;
+        this.imagine = imagine;
+        this.office = office;
+    }
 
     public PersonDTO() {
     }

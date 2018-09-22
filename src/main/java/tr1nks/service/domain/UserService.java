@@ -1,4 +1,4 @@
-package tr1nks.service;
+package tr1nks.service.domain;
 
 import tr1nks.domain.entity.UserEntity;
 

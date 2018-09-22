@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import tr1nks.domain.entity.UserEntity;
-import tr1nks.service.UserService;
+import tr1nks.service.domain.UserService;
 
 import javax.annotation.Resource;
 import java.util.HashSet;

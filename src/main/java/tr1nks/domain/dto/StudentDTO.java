@@ -35,6 +35,15 @@ public class StudentDTO extends PersonDTO {
         this.groupDTO = groupDTO;
         this.budget = budget;
     }
+    public StudentDTO(long id,String surname, String name, String patronymic, String code, String login,
+                      String initPassword, boolean imagine, boolean office,GroupDTO groupDTO, boolean budget) {
+
+        super(id, surname, name, patronymic, code, login, initPassword,
+                imagine, office);
+
+        this.groupDTO = groupDTO;
+        this.budget = budget;
+    }
 
     public StudentDTO() {
     }

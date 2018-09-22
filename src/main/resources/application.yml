@@ -15,15 +15,15 @@ hibernate:
     auto: update
 #    auto: create-drop
 
-spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: baseserverhneu@gmail.com
-    password: mailserver327
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#spring:
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: baseserverhneu@gmail.com
+#    password: mailserver327
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true

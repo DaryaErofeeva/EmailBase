@@ -1,9 +1,9 @@
-package tr1nks.service.impl;
+package tr1nks.service.domain.impl;
 
 import org.springframework.stereotype.Service;
 import tr1nks.domain.entity.UserEntity;
 import tr1nks.domain.repository.UserRepository;
-import tr1nks.service.UserService;
+import tr1nks.service.domain.UserService;
 
 import javax.annotation.Resource;
 

@@ -37,6 +37,15 @@ public abstract class PersonEntity extends MyEntity {
         this.code = code;
     }
 
+    public PersonEntity(String surname, String name, String patronymic, String code, boolean imagine, boolean office) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.code = code;
+        this.imagine = imagine;
+        this.office = office;
+    }
+
     protected PersonEntity() {
 
     }

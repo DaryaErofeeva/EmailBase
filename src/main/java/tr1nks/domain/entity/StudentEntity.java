@@ -22,6 +22,13 @@ public class StudentEntity extends PersonEntity {
         setInitPassword(initPassword);
         this.budget = budget;
     }
+    public StudentEntity(String surname, String name, String patronymic, String code, GroupEntity groupEntity, String login, String initPassword, boolean imagine, boolean office, boolean budget) {
+        super(surname, name, patronymic, code,imagine,office);
+        this.groupEntity = groupEntity;
+        setLogin(login);
+        setInitPassword(initPassword);
+        this.budget = budget;
+    }
 
     public StudentEntity(String surname, String name, String patronymic, String code, GroupEntity groupEntity) {
         super(surname, name, patronymic, code);

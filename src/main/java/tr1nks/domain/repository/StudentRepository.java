@@ -12,7 +12,15 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<StudentEntity, Long>, JpaSpecificationExecutor<StudentEntity> {
 
+    StudentEntity getFirstByLogin(String login);
+
+    StudentEntity getFirstByCode(String code);
+
     class StudentSpecifications {
+        public static Specification<StudentEntity> hasIdIn(List<Long> ids) {
+            return Specification.where((root, query, criteriaBuilder) -> root.get(StudentEntity_.id).in(ids));
+        }
+
         public static Specification<StudentEntity> hasFacultyIdIn(List<Integer> ids) {
             return Specification.where((root, query, criteriaBuilder) -> {
                 Join<StudentEntity, GroupEntity> studentGroupJoin = root.join(StudentEntity_.groupEntity);

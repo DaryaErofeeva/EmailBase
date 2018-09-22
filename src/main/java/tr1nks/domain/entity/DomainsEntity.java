@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "domens")
-public class DomensEntity extends MyEntity {
+@Table(name = "domains")
+public class DomainsEntity extends MyEntity {
     @Basic
     @Column(name = "email", nullable = false, length = 50)
     private String emailDomen;
@@ -18,13 +18,13 @@ public class DomensEntity extends MyEntity {
     @Column(name = "office", nullable = false, length = 50)
     private String officeDomen;
 
-    public DomensEntity(String gmail, String imagine, String office) {
+    public DomainsEntity(String gmail, String imagine, String office) {
         this.emailDomen = gmail;
         this.imagineDomen = imagine;
         this.officeDomen = office;
     }
 
-    public DomensEntity() {
+    public DomainsEntity() {
     }
 
 

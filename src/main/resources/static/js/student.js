@@ -59,28 +59,29 @@ function createStudentTableRow(rowIndex, student) {
     $(row).append(createCheckboxTableCell(student.imagine, cellIdPrefix + 'imagine'));
     $(row).append(createCheckboxTableCell(student.office, cellIdPrefix + 'office'));
     $(row).append(createCheckboxTableCell(student.budget, cellIdPrefix + 'budget'));
-
-
     return row;
 }
 
+function processStudentPageModel(studentPageModel) {
+    if (studentPageModel) {
+        var table = $("#person-table");
+        var tbody = $(table).find("tbody");
+        $("#page-number").val(studentPageModel.page);
+        $(tbody).empty();
+        $.each(studentPageModel.students, function (index, student) {
+            $(tbody).append(createStudentTableRow(index + 1, student));
+        });
+    }
+}
+
 $(document).ready(function (event) {
-    $("#test-button").click(function (event) {
-        $("#test-button").myfunction();
-    });
     $("#student-page-form").submit(function (event) {
         event.preventDefault();
         var url = $(this).attr("action");
         var method = $(this).attr("method").toUpperCase();
         var data = $(this).serialize();
-        sendAjax(url, method, data, function (studentPageModel) {
-            var table = $("#person-table");
-            $(table).empty();
-            $.each(studentPageModel.students, function (index, student) {
-                $(table).append(createStudentTableRow(index + 1, student));
-            });
-        });
-    })
+        sendAjax(url, method, data, processStudentPageModel);
+    });
 });
 
 
