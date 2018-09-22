@@ -1,7 +1,5 @@
 package tr1nks.domain.dto;
 
-import tr1nks.domain.entity.PersonEntity;
-
 public abstract class PersonDTO extends MyDTO {
     private String surname;
     private String name;
@@ -16,34 +14,52 @@ public abstract class PersonDTO extends MyDTO {
     private int errorFieldIndex = -1;
     private String errorMessage;
 
-    public PersonDTO(PersonEntity entity) {
-        super(entity);
-        this.surname = entity.getSurname();
-        this.name = entity.getName();
-        this.patronymic = entity.getPatronymic();
-        this.code = entity.getCode();
-        this.login = entity.getLogin();
-        this.initPassword = entity.getInitPassword();
-        this.imagine = entity.isImagine();
-        this.office = entity.isOffice();
+
+    public PersonDTO(long id, String surname, String name, String patronymic, String code, String login,
+                     String initPassword, boolean imagine, boolean office, boolean checked, int errorFieldIndex,
+                     String errorMessage) {
+        super(id);
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.code = code;
+        this.login = login;
+        this.initPassword = initPassword;
+        this.imagine = imagine;
+        this.office = office;
+        this.checked = checked;
+        this.errorFieldIndex = errorFieldIndex;
+        this.errorMessage = errorMessage;
+    }
+
+    public PersonDTO(String surname, String name, String patronymic, String code, String login,
+                     String initPassword, boolean imagine, boolean office, boolean checked, int errorFieldIndex,
+                     String errorMessage) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.code = code;
+        this.login = login;
+        this.initPassword = initPassword;
+        this.imagine = imagine;
+        this.office = office;
+        this.checked = checked;
+        this.errorFieldIndex = errorFieldIndex;
+        this.errorMessage = errorMessage;
+    }
+    public PersonDTO(String surname, String name, String patronymic, String code, String login,
+                     String initPassword, boolean imagine, boolean office) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.code = code;
+        this.login = login;
+        this.initPassword = initPassword;
+        this.imagine = imagine;
+        this.office = office;
     }
 
     public PersonDTO() {
-    }
-
-    @Override
-    public abstract PersonEntity toEntity();
-
-    void fillEntity(PersonEntity entity) {
-        super.fillEntity(entity);
-        entity.setSurname(this.surname);
-        entity.setName(this.name);
-        entity.setPatronymic(this.patronymic);
-        entity.setCode(this.code);
-        entity.setLogin(this.login);
-        entity.setInitPassword(this.initPassword);
-        entity.setImagine(this.imagine);
-        entity.setOffice(this.office);
     }
 
     public String getSurname() {
