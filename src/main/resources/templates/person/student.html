@@ -13,15 +13,35 @@
         <form th:action="@{/person/student/json}" id="student-page-form" method="post">
             <table id="person-table" class="table table-hover table-sm">
                 <thead></thead>
-                <tbody></tbody>
-                <!--ajax filled-->
+                <tbody><!--ajax filled--></tbody>
             </table>
+            <div id="page-controlling-div" class="mx-auto col-9">
+                <div id="page-controls-div" class="d-block mx-auto col-3">
+                    <button type="button" class="fas fa-arrow-alt-circle-left btn btn-success d-inline"
+                            formaction="#" id="previous-page"></button>
+                    <input type="text" readonly id="page-number" class="input col-2 d-inline">
+                    <button type="button" class="fas fa-arrow-alt-circle-right btn btn-success d-inline"
+                            formaction="#" id="next-page"></button>
+                </div>
+                <div id="action-buttons-div" class="d-block mx-auto row">
+                    <div class=" mx-auto col-4">
+                        <button type="submit" class="btn btn-primary">button 1</button>
+                        <button type="button" class="btn btn-primary">button 4</button>
+                        <button type="button" class="btn btn-primary">button 7</button>
+                    </div>
+                    <div class=" mx-auto col-4">
+                        <button type="button" class="btn btn-primary">button 2</button>
+                        <button type="button" class="btn btn-primary">button 5</button>
+                        <button type="button" class="btn btn-primary">button 8</button>
+                    </div>
+                    <div class=" mx-auto col-4">
+                        <button type="button" class="btn btn-primary">button 3</button>
+                        <button type="button" class="btn btn-primary">button 6</button>
+                        <button type="button" class="btn btn-primary">button 9</button>
+                    </div>
+                </div>
+            </div>
         </form>
-        <div id="page-controlling-div" class="mx-auto col-3">
-            <button class="fas fa-arrow-alt-circle-left btn btn-success d-inline" id="previous-page"></button>
-            <input type="text" readonly id="page-number" class="input col-2 d-inline">
-            <button class="fas fa-arrow-alt-circle-right btn btn-success d-inline" id="next-page"></button>
-        </div>
     </div>
     <div id="studentJsIncluding" class="d-none">
         <script type="text/javascript" th:src="@{~/js/student.js}"></script>

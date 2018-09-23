@@ -2,10 +2,8 @@ package tr1nks.controller.person;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import tr1nks.model.TestModel;
 import tr1nks.model.person.student.StudentPageModel;
 import tr1nks.service.domain.StudentService;
 
@@ -29,8 +27,16 @@ public class StudentController implements PersonController {
 
     @PostMapping("json")
     @ResponseBody
-    public StudentPageModel jsonTest(HttpSession session) {
-        //todo process currentPage
-        return studentService.getPageModel(1,session);//todo page num
+    public StudentPageModel getPage(@RequestBody(required = false) StudentPageModel pageModel, HttpSession session) {
+//        studentService.processPage(pageModel, session);
+        return studentService.getPageModel(1, session);//todo page num
+    }
+
+    @PostMapping("test")
+    @ResponseBody
+    public TestModel jsonTest(@RequestBody TestModel testModel, HttpSession session) {
+        System.out.println(testModel.getTextVal());
+        testModel.setTextVal("Hello from spring");
+        return testModel;
     }
 }

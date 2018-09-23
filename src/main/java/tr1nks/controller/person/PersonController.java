@@ -13,6 +13,7 @@ public interface PersonController extends Controller {
     String STUDENT_PAGE_MODEL_NAME = "studentPageModel";
     String ERROR_STUDENT_PAGE_MODEL_NAME = "errorStudentPageModel";
 
-    String ERROR_STUDENT_SESSION_NAME  = "errorStudentList";
+    String ERROR_STUDENT_SESSION_NAME = "errorStudentList";
     String STUDENT_SPECIFICATION_SESSION_NAME = "studentFilterSetModel";
+    String CHECKED_STUDENT_IDS_SESSION_NAME = "selectedStudentIds";
 }
