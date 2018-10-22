@@ -1,121 +1,193 @@
-;
-
-function sendAjax(url, method, data, handler) {
-    $.ajax({
-        url: url,
-        type: method,
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        dataType: 'json',
-        success: handler
-    });
-}
-
-
-
 $.fn.extend({
-    serializeFormJSON: function () {
-        var jsonObj = {};
-        console.log(JSON.stringify(this.serialize()));
-        var formArr = this.serializeArray();
-        $.each(formArr, function () {
-            // if ()
-            //     if (jsonObj[this.name]) {
-            //         if (!jsonObj[this.name].push) {
-            //             jsonObj[this.name] = [jsonObj[this.name]];
-            //         }
-            //         jsonObj[this.name].push(this.value || '');
-            //     } else {
-            //         jsonObj[this.name] = this.value || '';
-            //     }
-        });
-        var unindexed_array = this.serializeArray();
-        var indexed_array = {};
+    serializeFormJSON() {
+        const notIndexedArray = this.serializeArray();
+        let indexedArray = {};
 
-        $.map(unindexed_array, function(n, i){
-            indexed_array[n['name']] = n['value'];
+        $.map(notIndexedArray, (array) => {
+            indexedArray[array['name']] = array['value'];
         });
 
-        return indexed_array;
-
-        // return jsonObj;
+        return indexedArray;
     }
 });
 
-function createTableCell(cellId) {
-    return $('<td>', {id: cellId});
-}
+$(document).ready(() => {
+    const $dataReader = $('.root');
+    const jsonFromBack = $dataReader.html();
 
-function createTableRow(rowId) {
-    return $('<tr>', {id: rowId});
-}
+    $dataReader.empty();
 
-function createHiddenInput(value, inputId, inputName) {
-    return $('<input>', {id: inputId, type: 'hidden', name: inputName, value: value, class: 'd-none'});
-}
-
-function createCheckboxTableCell(value, cellId, inputName) {
-    var cell = createTableCell(cellId);
-    var checkbox = $('<input>', {type: 'checkbox', name: inputName, checked: value, class: 'form-control input-sm'});
-    cell.append(checkbox);
-    return cell;
-}
-
-function createTextInputTableCell(value, cellId, inputName) {
-    var cell = createTableCell(cellId);
-    var input = $('<input>', {type: 'text', name: inputName, value: value, class: 'form-control input-sm'});
-    cell.append(input);
-    return cell;
-}
-
-function createTextTableCell(value, cellId) {
-    var cell = createTableCell(cellId);
-    cell.append(value);
-    return cell;
-}
-
-function createStudentTableRow(rowIndex, student) {
-    var rowId = student.id;
-    var row = createTableRow("student-row-" + rowId);
-    var cellIdPrefix = "student-row-" + rowId + "-";
-    $(row).append(createHiddenInput(student.id, cellIdPrefix + 'id', 'students[' + rowIndex + '][id]'));
-    // $(row).append(createTextTableCell(rowIndex, cellIdPrefix + 'num'));
-    $(row).append(createCheckboxTableCell(student.checked, cellIdPrefix + 'checked', 'students[' + rowIndex + '][checked]'));
-    $(row).append(createTextInputTableCell(student.surname, cellIdPrefix + 'surname', 'students[' + rowIndex + '][surname]'));
-    $(row).append(createTextInputTableCell(student.name, cellIdPrefix + 'name', 'students[' + rowIndex + '][name]'));
-    $(row).append(createTextInputTableCell(student.patronymic, cellIdPrefix + 'patronymic', 'students[' + rowIndex + '][patronymic]'));
-    $(row).append(createTextInputTableCell(student.groupEntity, cellIdPrefix + 'group', 'students[' + rowIndex + '][groupEntity]'));
-    $(row).append(createTextInputTableCell(student.code, cellIdPrefix + 'code', 'students[' + rowIndex + '][code]'));
-    $(row).append(createTextInputTableCell(student.login, cellIdPrefix + 'login', 'students[' + rowIndex + '][login]'));
-    $(row).append(createTextInputTableCell(student.initPassword, cellIdPrefix + 'initPassword', 'students[' + rowIndex + '][initPassword]'));
-    $(row).append(createCheckboxTableCell(student.imagine, cellIdPrefix + 'imagine', 'students[' + rowIndex + '][imagine]'));
-    $(row).append(createCheckboxTableCell(student.office, cellIdPrefix + 'office', 'students[' + rowIndex + '][office]'));
-    $(row).append(createCheckboxTableCell(student.budget, cellIdPrefix + 'budget', 'students[' + rowIndex + '][budget]'));
-    return row;
-}
-
-function processStudentPageModel(studentPageModel) {
-    if (studentPageModel) {
-        console.log(studentPageModel);
-        var table = $("#person-table");
-        var tbody = $(table).find("tbody");
-        $("#page-number").val(studentPageModel.page);
-        $(tbody).empty();
-        $.each(studentPageModel.students, function (index, student) {
-            $(tbody).append(createStudentTableRow(index + 1, student));
-        });
-    }
-}
-
-$(document).ready(function (event) {
-    $("#student-page-form").submit(function (event) {
-        event.preventDefault();
-        var url = $(this).attr("action");
-        var method = $(this).attr("method").toUpperCase();
-        var data = $(this).serialize();
-        data = $(this).serializeFormJSON();
-        sendAjax(url, method, data, processStudentPageModel);
-    });
+    (new StudentPageHandler(jsonFromBack)).init();
 });
 
+class StudentPageHandler {
+    /**
+     * StudentPageHandler constructor
+     * @param jsonFromBack
+     */
+    constructor(jsonFromBack) {
+        this.jsonFromBack = jsonFromBack;
+        this.sendRequest('/person/student/json', 'post', {});
+    }
 
+    /**
+     * Send request to back-end for students
+     *
+     * @param url
+     * @param method
+     * @param data
+     * @param successCallback
+     */
+    sendRequest(url, method, data, successCallback) {
+        $.ajax({
+            url: url,
+            type: method,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: (data) => {
+                this.processStudentPageModel(data);
+            }
+        });
+    }
+
+    /**
+     * Method initialize page handler
+     */
+    init() {
+        this.initSelectors();
+        this.initListeners();
+
+        this.processStudentPageModel(this.jsonFromBack);
+    }
+
+    /**
+     * Method initialize all class properties
+     */
+    initSelectors() {
+        this.$studentPageForm = $('#student-page-form');
+        this.$tableBody = $('#person-table tbody');
+        this.$pageNumber = $('#page-number');
+    }
+
+    /**
+     * Method initialize event listeners
+     */
+    initListeners() {
+        this.$studentPageForm.on('submit', (e) => {
+            const url = $(e.target).attr('action');
+            const method = $(e.target).attr('method').toUpperCase();
+            const data = $(e.target).serializeFormJSON();
+
+            this.sendRequest(url, method, data, this.processStudentPageModel);
+        });
+    }
+
+    /**
+     * Handle all received students
+     * from JSON and append to HTML
+     */
+    processStudentPageModel(studentPageModel) {
+        this.studentPageModel = studentPageModel;
+
+        if (this.studentPageModel) {
+            this.$pageNumber.val(this.studentPageModel.page);
+            this.$tableBody.empty();
+
+            $.each(this.studentPageModel.students, (idx, student) => {
+                this.$tableBody.append(this.createStudentTableRow(idx + 1, student));
+            });
+        }
+    }
+
+    /**
+     * Table cell builder
+     *
+     * @param cellId
+     * @returns {jQuery.fn.init|jQuery|HTMLElement}
+     */
+    createTableCell(cellId) {
+        return $('<td>', {id: cellId});
+    }
+
+    /**
+     * Table row builder
+     *
+     * @param rowId
+     * @returns {jQuery.fn.init|jQuery|HTMLElement}
+     */
+    createTableRow(rowId) {
+        return $('<tr>', {id: rowId});
+    }
+
+    /**
+     * Hidden input builder
+     *
+     * @param value
+     * @param inputId
+     * @param inputName
+     * @returns {jQuery.fn.init|jQuery|HTMLElement}
+     */
+    createHiddenInput(value, inputId, inputName) {
+        return $('<input>', {id: inputId, type: 'hidden', name: inputName, value: value, class: 'd-none'});
+    }
+
+    /**
+     * Table cell with checkbox builder
+     *
+     * @param value
+     * @param cellId
+     * @param inputName
+     * @returns {*|void}
+     */
+    createCheckboxTableCell(value, cellId, inputName) {
+        const cell = this.createTableCell(cellId);
+        const checkbox = $('<input>', {type: 'checkbox', name: inputName, checked: value, class: 'input-sm'});
+
+        return cell.append(checkbox);
+    }
+
+    /**
+     * Table cell with input builder
+     *
+     * @param value
+     * @param cellId
+     * @param inputName
+     * @returns {*|void}
+     */
+    createTextInputTableCell(value, cellId, inputName) {
+        const cell = this.createTableCell(cellId);
+        const input = $('<input>', {type: 'text', name: inputName, value: value, class: 'form-control input-sm'});
+
+        return cell.append(input);
+    }
+
+    /**
+     * Table assembler
+     *
+     * @param rowIndex
+     * @param student
+     * @returns {jQuery.fn.init|jQuery|HTMLElement}
+     */
+    createStudentTableRow(rowIndex, student) {
+        const rowId = student.id;
+        const $row = $(this.createTableRow(`student-row-${rowId}`));
+        const cellIdPrefix = `student-row-${rowId}-`;
+
+        $row
+            .append(this.createHiddenInput(student.id, `${cellIdPrefix}id`, `students[${rowIndex}][id]`))
+            .append(this.createCheckboxTableCell(student.checked, `${cellIdPrefix}checked` + `students[${rowIndex}][checked]`))
+            .append(this.createTextInputTableCell(student.surname, `${cellIdPrefix}surname`, `students[${rowIndex}][[surname]`))
+            .append(this.createTextInputTableCell(student.name, `${cellIdPrefix}name`, `students[${rowIndex}][name]`))
+            .append(this.createTextInputTableCell(student.patronymic, `${cellIdPrefix}patronymic`, `students[${rowIndex}][patronymic]`))
+            .append(this.createTextInputTableCell(student.groupEntity, `${cellIdPrefix}group`, `students[${rowIndex}][groupEntity]`))
+            .append(this.createTextInputTableCell(student.code, `${cellIdPrefix}code`, `students[${rowIndex}][code]`))
+            .append(this.createTextInputTableCell(student.login, `${cellIdPrefix}login`, `students[${rowIndex}][login]`))
+            .append(this.createTextInputTableCell(student.initPassword, `${cellIdPrefix}initPassword`, `students[${rowIndex}][initPassword]`))
+            .append(this.createCheckboxTableCell(student.imagine, `${cellIdPrefix}imagine`, `students[${rowIndex}][imagine]`))
+            .append(this.createCheckboxTableCell(student.office, `${cellIdPrefix}office`, `students[${rowIndex}][office]`))
+            .append(this.createCheckboxTableCell(student.budget, `${cellIdPrefix}budget`, `students[${rowIndex}][budget]`));
+
+        return $row;
+    }
+}
