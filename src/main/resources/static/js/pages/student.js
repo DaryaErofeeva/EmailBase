@@ -12,21 +12,14 @@ $.fn.extend({
 });
 
 $(document).ready(() => {
-    const $dataReader = $('.root');
-    const jsonFromBack = $dataReader.html();
-
-    $dataReader.empty();
-
-    (new StudentPageHandler(jsonFromBack)).init();
+    (new StudentPageHandler()).init();
 });
 
 class StudentPageHandler {
     /**
      * StudentPageHandler constructor
-     * @param jsonFromBack
      */
-    constructor(jsonFromBack) {
-        this.jsonFromBack = jsonFromBack;
+    constructor() {
         this.sendRequest('/person/student/json', 'post', {});
     }
 

@@ -2677,7 +2677,7 @@ cloud-upload-alt:
   label: Alternate Cloud Upload
   search:
     terms:
-      - cloud-upload
+      - cloud-parse
   styles:
     - solid
   unicode: f382
@@ -3937,7 +3937,7 @@ edit:
       - edit
       - pen
       - pencil
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -6474,7 +6474,7 @@ highlighter:
       - edit
       - marker
       - sharpie
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -7927,7 +7927,7 @@ marker:
     terms:
       - edit
       - sharpie
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -9050,7 +9050,7 @@ pen:
     terms:
       - design
       - edit
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -9064,7 +9064,7 @@ pen-alt:
     terms:
       - design
       - edit
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -9078,7 +9078,7 @@ pen-fancy:
       - design
       - edit
       - fountain pen
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -9092,7 +9092,7 @@ pen-nib:
       - design
       - edit
       - fountain pen
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -9106,7 +9106,7 @@ pen-square:
     terms:
       - edit
       - pencil-square
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -9120,7 +9120,7 @@ pencil-alt:
       - design
       - edit
       - pencil
-      - update
+      - parse
       - write
   styles:
     - solid
@@ -13773,7 +13773,7 @@ wrench:
       - settings
       - spanner
       - tool
-      - update
+      - parse
   styles:
     - solid
   unicode: f0ad
