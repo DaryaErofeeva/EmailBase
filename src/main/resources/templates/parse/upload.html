@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/service/head :: headFull(title='Student')">
+    <meta charset="UTF-8">
+</head>
+<body>
+<script type="text/javascript" th:src="@{~/js/pages/upload.js}"></script>
+<header th:replace="include/component/header :: header"></header>
+<div>
+    <div class="container mt-4 border p-4 col-md-6">
+        <form th:action="@{/parse/upload/file}" id="upload-page-form" method="POST" enctype="multipart/form-data">
+            <div class="row text-center">
+                <div class="col-md-8 offset-2">
+                    <div class="form-group form-row">
+                        <div class="col">
+                            <label for="delimiter">Разделитель</label>
+                            <select name="delimiter" class="form-control" id="delimiter">
+                                <option value="comma" selected>,</option>
+                                <option value="semicolon">;</option>
+                                <option value="pipe">|</option>
+                                <option value="caret">^</option>
+                                <option value="tab">Tab</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="charset">Кодировка</label>
+                            <select name="charset" class="form-control" id="charset">
+                                <option value="utf" selected>UTF-8</option>
+                                <option value="win-1251">WIN-1251</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" name="file" class="custom-file-input" id="validatedCsvFile" required>
+                            <label class="custom-file-label" for="validatedCsvFile">Выберете файл...</label>
+                        </div>
+                    </div>
+                    <div class="js-msg-box alert d-none">Ошибка!</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 offset-2 pb-0">
+                    <div class="form-group">
+                        <button type="submit" class="js-upload-btn btn btn-primary col-md-12">Загрузить</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer></footer>
+</body>
+</html>

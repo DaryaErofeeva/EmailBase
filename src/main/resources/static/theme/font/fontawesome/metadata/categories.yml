@@ -70,7 +70,7 @@ arrows:
     - chevron-right
     - chevron-up
     - cloud-download-alt
-    - cloud-upload-alt
+    - cloud-parse-alt
     - download
     - exchange-alt
     - expand-arrows-alt
@@ -117,7 +117,7 @@ arrows:
     - text-width
     - undo
     - undo-alt
-    - upload
+    - parse
   label: Arrows
 audio-video:
   icons:
@@ -421,7 +421,7 @@ computers:
     - tablet
     - tablet-alt
     - tv
-    - upload
+    - parse
   label: Computers
 currency:
   icons:
@@ -764,7 +764,7 @@ interfaces:
     - clone
     - cloud
     - cloud-download-alt
-    - cloud-upload-alt
+    - cloud-parse-alt
     - coffee
     - cog
     - cogs
@@ -791,7 +791,7 @@ interfaces:
     - file-download
     - file-export
     - file-import
-    - file-upload
+    - file-parse
     - filter
     - fingerprint
     - flag
@@ -880,7 +880,7 @@ interfaces:
     - trophy
     - undo
     - undo-alt
-    - upload
+    - parse
     - user
     - user-alt
     - user-circle
