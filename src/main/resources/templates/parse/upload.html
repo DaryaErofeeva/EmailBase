@@ -7,6 +7,7 @@
 <script type="text/javascript" th:src="@{~/js/pages/upload.js}"></script>
 <header th:replace="include/component/header :: header"></header>
 <div>
+    <div class="text-plain"></div>
     <div class="container mt-4 border p-4 col-md-6">
         <form th:action="@{/parse/upload/file}" id="upload-page-form" method="POST" enctype="multipart/form-data">
             <div class="row text-center">
@@ -15,18 +16,19 @@
                         <div class="col">
                             <label for="delimiter">Разделитель</label>
                             <select name="delimiter" class="form-control" id="delimiter">
-                                <option value="comma" selected>,</option>
-                                <option value="semicolon">;</option>
-                                <option value="pipe">|</option>
-                                <option value="caret">^</option>
-                                <option value="tab">Tab</option>
+                                <option value=",">,</option>
+                                <option value=";" selected>;</option>
+                                <option value="|">|</option>
+                                <option value="^">^</option>
+                                <option value=".">.</option>
+                                <option value="-">-</option>
                             </select>
                         </div>
                         <div class="col">
                             <label for="charset">Кодировка</label>
                             <select name="charset" class="form-control" id="charset">
-                                <option value="utf" selected>UTF-8</option>
-                                <option value="win-1251">WIN-1251</option>
+                                <option value="UTF-8" selected>UTF-8</option>
+                                <option value="WIN-1251">WIN-1251</option>
                             </select>
                         </div>
                     </div>
