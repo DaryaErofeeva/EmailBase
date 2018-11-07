@@ -1,11 +1,9 @@
 package tr1nks.model.person.filter;
 
-import tr1nks.model.PageModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterModel<I extends Number> implements PageModel {
+public class FilterModel<I extends Number> {
     private int id;
     private String title;
     private List<FilterItem<I>> itemsList;

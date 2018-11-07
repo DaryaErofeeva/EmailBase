@@ -1,5 +1,6 @@
 package tr1nks.service.domain.impl;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import tr1nks.component.converter.EntityDTOConverter;
@@ -82,30 +83,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private List<StudentDTO> getPageDtos(int page, HttpSession session) {
-        List<StudentDTO> dtos = new ArrayList<>();
-        for (int i = 0; i < PAGE_SIZE; i++) {
-            StudentDTO dto = new StudentDTO(i, "surname-" + i, "name-" + i, "patronymic-" + i, "code-" + i,
-                    "login-" + i, "initPassword-" + i, i % 2 == 0, i % 2 == 0, new GroupDTO(), i % 2 == 0);
-            dto.setChecked(i % 2 == 0);
-            dtos.add(dto);
+        Specification<StudentEntity> specification = (Specification<StudentEntity>) session.getAttribute(PersonController.STUDENT_SPECIFICATION_SESSION_NAME);
+        if (Objects.nonNull(specification)) {
+            List<StudentDTO> dtos = studentRepository.findAll(specification, PageRequest.of(page - 1, PAGE_SIZE))
+                    .getContent().stream().map(studentEntityDTOConverter::toDTO)
+                    .collect(Collectors.toList());
+            Set<Long> checkedIds = (Set<Long>) session.getAttribute(PersonController.CHECKED_STUDENT_IDS_SESSION_NAME);
+            if (Objects.nonNull(checkedIds)) {
+                dtos.stream().filter(dto -> checkedIds.contains(dto.getId())).forEach(dto -> dto.setChecked(true));
+            }
+            return dtos;
+        } else {
+            return Collections.EMPTY_LIST;
         }
-        return dtos;
     }
-//    private List<StudentDTO> getPageDtos(int page, HttpSession session) {
-//        Specification<StudentEntity> specification = (Specification<StudentEntity>) session.getAttribute(PersonController.STUDENT_SPECIFICATION_SESSION_NAME);
-//        if (Objects.nonNull(specification)) {
-//            List<StudentDTO> dtos = studentRepository.findAll(specification, PageRequest.of(page - 1, PAGE_SIZE))
-//                    .getContent().stream().map(studentEntityDTOConverter::toDTO)
-//                    .collect(Collectors.toList());
-//            Set<Long> checkedIds = (Set<Long>) session.getAttribute(PersonController.CHECKED_STUDENT_IDS_SESSION_NAME);
-//            if (Objects.nonNull(checkedIds)) {
-//                dtos.stream().filter(dto -> checkedIds.contains(dto.getId())).forEach(dto -> dto.setChecked(true));
-//            }
-//            return dtos;
-//        } else {
-//            return Collections.EMPTY_LIST;
-//        }
-//    }
 
     private List<StudentDTO> getErrorStudents(HttpSession session) {
         List<StudentDTO> studentDTOS = new ArrayList<>(PAGE_SIZE);
@@ -114,6 +105,11 @@ public class StudentServiceImpl implements StudentService {
             studentDTOS.add(studentQueue.peek());
         }
         return studentDTOS;
+    }
+
+    @Override
+    public StudentEntity save(StudentEntity student) {
+        return studentRepository.save(student);
     }
 
     @Override
@@ -127,23 +123,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentEntity save(StudentEntity student) {
-        return studentRepository.save(student);
-    }
-
-    @Override
-    public StudentEntity trySave(StudentEntity student, StudentDTO studentDto) {
+    public boolean testStudent(StudentDTO student) {
+        boolean valid = true;
         if (!testEmail(student.getLogin())) {
-            studentDto.setChecked(true);
-            studentDto.setErrorFieldIndex(TableColumnIndex.LOGIN.index);
-            studentDto.setErrorMessage(TableColumnErrorMessages.LOGIN.message);
-        } else if (!testCode(student.getCode())) {
-            studentDto.setChecked(true);
-            studentDto.setErrorFieldIndex(TableColumnIndex.CODE.index);
-            studentDto.setErrorMessage(TableColumnErrorMessages.CODE.message);
-        } else {
-            return save(student);
+            valid = false;
+            student.setErrorFieldIndex(TableColumnIndex.LOGIN.index);
+            student.setErrorMessage(TableColumnErrorMessages.LOGIN.message);
         }
-        return student;
+        if (!testCode(student.getCode())) {
+            valid = false;
+            student.setErrorFieldIndex(TableColumnIndex.CODE.index);
+            student.setErrorMessage(TableColumnErrorMessages.CODE.message);
+        }
+        return valid;
     }
 }

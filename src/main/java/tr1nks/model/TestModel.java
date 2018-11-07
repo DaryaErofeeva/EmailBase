@@ -1,6 +1,6 @@
 package tr1nks.model;
 
-public class TestModel implements PageModel {
+public class TestModel {
     private String textVal;
 
     public String getTextVal() {
