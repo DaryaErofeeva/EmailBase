@@ -67,6 +67,8 @@ dependencies {
 
     compile("com.itextpdf:itextpdf:${iTextPdfVersion}")
     compile("com.itextpdf.tool:xmlworker:${iTextPdfVersion}")
+    
+    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
 
     runtime("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
