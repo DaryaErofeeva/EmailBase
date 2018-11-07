@@ -5,13 +5,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import tr1nks.component.converter.EntityDTOConverter;
 import tr1nks.controller.person.PersonController;
-import tr1nks.domain.dto.GroupDTO;
 import tr1nks.domain.dto.StudentDTO;
 import tr1nks.domain.entity.MyEntity;
 import tr1nks.domain.entity.StudentEntity;
 import tr1nks.domain.repository.StudentRepository;
+import tr1nks.enums.StudentField;
 import tr1nks.enums.TableColumnErrorMessages;
-import tr1nks.enums.TableColumnIndex;
 import tr1nks.model.person.student.StudentPageModel;
 import tr1nks.service.domain.StudentService;
 
@@ -38,11 +37,11 @@ public class StudentServiceImpl implements StudentService {
             session.setAttribute(PersonController.CHECKED_STUDENT_IDS_SESSION_NAME, ids);
         }
         for (StudentDTO dto : pageModel.getStudents()) {
-            if (dto.isChecked()) {
-                ids.add(dto.getId());
-            } else {
-                ids.remove(dto.getId());
-            }
+//            if (dto.isChecked()) {
+//                ids.add(dto.getId());
+//            } else {
+//                ids.remove(dto.getId());
+//            }
         }
     }
 
@@ -90,7 +89,7 @@ public class StudentServiceImpl implements StudentService {
                     .collect(Collectors.toList());
             Set<Long> checkedIds = (Set<Long>) session.getAttribute(PersonController.CHECKED_STUDENT_IDS_SESSION_NAME);
             if (Objects.nonNull(checkedIds)) {
-                dtos.stream().filter(dto -> checkedIds.contains(dto.getId())).forEach(dto -> dto.setChecked(true));
+//                dtos.stream().filter(dto -> checkedIds.contains(dto.getId())).forEach(dto -> dto.setChecked(true));
             }
             return dtos;
         } else {
@@ -127,12 +126,12 @@ public class StudentServiceImpl implements StudentService {
         boolean valid = true;
         if (!testEmail(student.getLogin())) {
             valid = false;
-            student.setErrorFieldIndex(TableColumnIndex.LOGIN.index);
+            student.setErrorField(StudentField.LOGIN);
             student.setErrorMessage(TableColumnErrorMessages.LOGIN.message);
         }
         if (!testCode(student.getCode())) {
             valid = false;
-            student.setErrorFieldIndex(TableColumnIndex.CODE.index);
+            student.setErrorField(StudentField.CODE);
             student.setErrorMessage(TableColumnErrorMessages.CODE.message);
         }
         return valid;

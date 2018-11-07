@@ -1,5 +1,7 @@
 package tr1nks.domain.dto;
 
+import tr1nks.enums.StudentField;
+
 public abstract class PersonDTO extends MyDTO {
     private String surname;
     private String name;
@@ -10,13 +12,12 @@ public abstract class PersonDTO extends MyDTO {
     private boolean imagine;
     private boolean office;
     //non entity fields
-    private boolean checked;
-    private int errorFieldIndex = -1;
+    private String errorField;
     private String errorMessage;
 
 
     public PersonDTO(long id, String surname, String name, String patronymic, String code, String login,
-                     String initPassword, boolean imagine, boolean office, boolean checked, int errorFieldIndex,
+                     String initPassword, boolean imagine, boolean office, StudentField errorField,
                      String errorMessage) {
         super(id);
         this.surname = surname;
@@ -27,13 +28,12 @@ public abstract class PersonDTO extends MyDTO {
         this.initPassword = initPassword;
         this.imagine = imagine;
         this.office = office;
-        this.checked = checked;
-        this.errorFieldIndex = errorFieldIndex;
+        this.errorField = errorField.field;
         this.errorMessage = errorMessage;
     }
 
     public PersonDTO(String surname, String name, String patronymic, String code, String login,
-                     String initPassword, boolean imagine, boolean office, boolean checked, int errorFieldIndex,
+                     String initPassword, boolean imagine, boolean office, StudentField errorField,
                      String errorMessage) {
         this.surname = surname;
         this.name = name;
@@ -43,8 +43,7 @@ public abstract class PersonDTO extends MyDTO {
         this.initPassword = initPassword;
         this.imagine = imagine;
         this.office = office;
-        this.checked = checked;
-        this.errorFieldIndex = errorFieldIndex;
+        this.errorField = errorField.field;
         this.errorMessage = errorMessage;
     }
     public PersonDTO(String surname, String name, String patronymic, String code, String login,
@@ -138,20 +137,12 @@ public abstract class PersonDTO extends MyDTO {
         this.office = office;
     }
 
-    public boolean isChecked() {
-        return checked;
+    public String getErrorField() {
+        return errorField;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
-    public int getErrorFieldIndex() {
-        return errorFieldIndex;
-    }
-
-    public void setErrorFieldIndex(int errorFieldIndex) {
-        this.errorFieldIndex = errorFieldIndex;
+    public void setErrorField(StudentField errorFieldIndex) {
+        this.errorField = errorFieldIndex.field;
     }
 
     public String getErrorMessage() {
