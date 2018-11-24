@@ -1,26 +1,28 @@
 package tr1nks.domain.dto;
 
+import tr1nks.enums.StudentField;
+
 public class StudentDTO extends PersonDTO {
     private GroupDTO groupDTO;
     private boolean budget;
 
     public StudentDTO(long id, String surname, String name, String patronymic, String code, String login,
-                      String initPassword, boolean imagine, boolean office, boolean checked, int errorFieldIndex,
+                      String initPassword, boolean imagine, boolean office, StudentField errorField,
                       String errorMessage, GroupDTO groupDTO, boolean budget) {
 
         super(id, surname, name, patronymic, code, login, initPassword,
-                imagine, office, checked, errorFieldIndex, errorMessage);
+                imagine, office, errorField, errorMessage);
 
         this.groupDTO = groupDTO;
         this.budget = budget;
     }
 
     public StudentDTO(String surname, String name, String patronymic, String code, String login,
-                      String initPassword, boolean imagine, boolean office, boolean checked, int errorFieldIndex,
+                      String initPassword, boolean imagine, boolean office, StudentField errorField,
                       String errorMessage, GroupDTO groupDTO, boolean budget) {
 
         super(surname, name, patronymic, code, login, initPassword,
-                imagine, office, checked, errorFieldIndex, errorMessage);
+                imagine, office, errorField, errorMessage);
 
         this.groupDTO = groupDTO;
         this.budget = budget;
