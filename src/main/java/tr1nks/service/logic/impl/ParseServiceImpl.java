@@ -7,13 +7,10 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tr1nks.component.converter.EntityDTOConverter;
+import tr1nks.constants.FileColumn;
 import tr1nks.controller.person.PersonController;
 import tr1nks.domain.dto.*;
-import tr1nks.domain.entity.StudentEntity;
-import tr1nks.domain.repository.StudentRepository;
-import tr1nks.enums.FileColumn;
-import tr1nks.service.domain.GroupService;
+import tr1nks.domain.repository.GroupRepository;
 import tr1nks.service.domain.StudentService;
 import tr1nks.service.logic.CredentialGenerationService;
 import tr1nks.service.logic.ParseService;
@@ -27,6 +24,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParseServiceImpl implements ParseService {
@@ -35,17 +33,15 @@ public class ParseServiceImpl implements ParseService {
 
     @Resource
     private StudentService studentService;
-    @Resource
-    private StudentRepository studentRepository;
-    @Resource
-    private GroupService groupService;
+
     @Resource
     private CredentialGenerationService credentialGenerationService;
+
     @Resource
-    private EntityDTOConverter<StudentDTO, StudentEntity> studentEntityDTOConverter;
+    private GroupRepository groupRepository;
 
     @Override
-    public void parseStudents(char delimiter, Charset charset, MultipartFile file, HttpSession httpSession) {
+    public boolean parseStudents(char delimiter, Charset charset, MultipartFile file, HttpSession httpSession) {
         List<StudentDTO> studentDtos = new ArrayList<>();
         List<StudentDTO> errorStudentDtos = new ArrayList<>();
 
@@ -63,6 +59,8 @@ public class ParseServiceImpl implements ParseService {
 
         httpSession.setAttribute(PersonController.STUDENT_SESSION_NAME, studentDtos);
         httpSession.setAttribute(PersonController.ERROR_STUDENT_SESSION_NAME, errorStudentDtos);
+
+        return errorStudentDtos.isEmpty();
     }
 
     private StudentDTO parseStudentDTO(CSVRecord csvRecord) {
@@ -71,7 +69,8 @@ public class ParseServiceImpl implements ParseService {
         GroupDTO groupDTO = parseGroupDto(groupCipherArray);
         String login = credentialGenerationService.createLogin(csvRecord.get(FileColumn.SURNAME), csvRecord.get(FileColumn.NAME));
         String password = credentialGenerationService.generatePassword(LENGTH_OF_PASSWORD);
-        return new StudentDTO(FileColumn.SURNAME, FileColumn.NAME, FileColumn.PATRONYMIC, FileColumn.CODE,
+        return new StudentDTO(csvRecord.get(FileColumn.SURNAME), csvRecord.get(FileColumn.NAME),
+                csvRecord.get(FileColumn.PATRONYMIC), csvRecord.get(FileColumn.CODE),
                 login, password, groupDTO, parseTrueFlag(FileColumn.BUDGET));
     }
 
@@ -87,5 +86,21 @@ public class ParseServiceImpl implements ParseService {
 
     private boolean parseTrueFlag(String s) {
         return s.equals("true") || s.equals("да") || s.equals("+") || s.equals("yes") || s.equals("1");
+    }
+
+    @Override
+    public boolean checkStudents(List<StudentDTO> studentDTOS, HttpSession httpSession) {
+        List<StudentDTO> studentDtos = (List<StudentDTO>) httpSession.getAttribute(PersonController.STUDENT_SESSION_NAME);
+        List<StudentDTO> errorStudentDtos = new ArrayList<>();
+
+        studentDTOS.forEach(studentDTO -> {
+            if(studentService.testStudent(studentDTO)) studentDTOS.add(studentDTO);
+            else errorStudentDtos.add(studentDTO);
+        });
+
+        httpSession.setAttribute(PersonController.STUDENT_SESSION_NAME, studentDtos);
+        httpSession.setAttribute(PersonController.ERROR_STUDENT_SESSION_NAME, errorStudentDtos);
+
+        return errorStudentDtos.isEmpty();
     }
 }

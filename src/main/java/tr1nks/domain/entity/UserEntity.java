@@ -1,7 +1,7 @@
 package tr1nks.domain.entity;
 
 
-import tr1nks.enums.UserRole;
+import tr1nks.constants.UserRole;
 
 import javax.persistence.*;
 import java.util.UUID;

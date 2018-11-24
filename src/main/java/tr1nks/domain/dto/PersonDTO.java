@@ -1,6 +1,6 @@
 package tr1nks.domain.dto;
 
-import tr1nks.enums.StudentField;
+import tr1nks.constants.StudentField;
 
 public abstract class PersonDTO extends MyDTO {
     private String surname;

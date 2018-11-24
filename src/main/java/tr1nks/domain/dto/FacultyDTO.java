@@ -2,7 +2,7 @@ package tr1nks.domain.dto;
 
 public class FacultyDTO extends MyDTO {
     public static final String NAME_STUB = "FACULTY_LEVEL_NAME_STUB";
-    public static final String ABBR_STUB = "FACULTY_ABBR_STUB";
+    public static final String ABBR_STUB = "STUB";
     private int facultyId;
     private String name;
     private String abbr;
@@ -21,7 +21,7 @@ public class FacultyDTO extends MyDTO {
     }
 
     public FacultyDTO(int facultyId) {
-        this(facultyId, NAME_STUB, ABBR_STUB);
+        this(facultyId, NAME_STUB, ABBR_STUB + facultyId);
     }
 
     public FacultyDTO() {

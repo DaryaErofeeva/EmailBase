@@ -7,8 +7,17 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import tr1nks.domain.entity.*;
 
 import javax.persistence.criteria.Join;
+import java.util.List;
 
 public interface GroupRepository extends JpaRepository<GroupEntity, Long>, JpaSpecificationExecutor<GroupEntity> {
+
+    GroupEntity getTopByFacultyEntityIdAndSpecializationEntityIdAndStudyLevelEntityIdAndNumAndYear(
+            long facultyEntityId,
+            long specializationEntityId,
+            long studyLevelEntityId,
+            int num,
+            int year
+    );
 
     class GroupSpecifications {                                //8.04.122.10.18.2
         public static Specification<GroupEntity> hasStudyLevelId(int studyLevelId) {

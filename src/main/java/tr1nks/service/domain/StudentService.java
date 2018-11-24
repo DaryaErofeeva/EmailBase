@@ -5,6 +5,7 @@ import tr1nks.domain.entity.StudentEntity;
 import tr1nks.model.person.student.StudentPageModel;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public interface StudentService {
     void checkAllSelected(HttpSession session);
@@ -15,7 +16,9 @@ public interface StudentService {
 
     StudentPageModel getPageModel(int page, HttpSession session);
 
-    StudentEntity save(StudentEntity student);
+    void save(StudentEntity student);
+
+    void save(List<StudentEntity> students);
 
     void processPage(StudentPageModel pageModel, HttpSession session);
 
