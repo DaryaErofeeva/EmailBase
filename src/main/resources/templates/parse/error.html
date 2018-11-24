@@ -5,7 +5,25 @@
 </head>
 <body>
 <header th:replace="include/component/header :: header"></header>
-<div class="text-plain"></div>
+<div class="container">
+    <br><button class="continue-btn btn btn-primary">Продолжить</button>
+    <hr>
+    <table class="table table-responsive-xs table-hover border">
+        <thead class="bg-dark text-white">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Код</th>
+            <th scope="col">Логин</th>
+        </tr>
+        </thead>
+        <tbody class="error-students-table">
+        </tbody>
+    </table>
+    <nav><ul class="pagination justify-content-center"></ul></nav>
+</div>
 <footer></footer>
 <script type="text/javascript" th:src="@{~/js/pages/parse-error.js}"></script>
 </body>
