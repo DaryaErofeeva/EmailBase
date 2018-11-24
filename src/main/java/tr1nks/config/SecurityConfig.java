@@ -14,7 +14,7 @@ import tr1nks.controller.common.CommonController;
 import tr1nks.controller.domain.DomainController;
 import tr1nks.controller.parse.ParseController;
 import tr1nks.controller.person.PersonController;
-import tr1nks.enums.UserRole;
+import tr1nks.constants.UserRole;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
