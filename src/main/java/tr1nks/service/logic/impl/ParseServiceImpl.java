@@ -13,8 +13,6 @@ import tr1nks.domain.dto.*;
 import tr1nks.domain.entity.StudentEntity;
 import tr1nks.domain.repository.StudentRepository;
 import tr1nks.enums.FileColumn;
-import tr1nks.enums.TableColumnErrorMessages;
-import tr1nks.enums.TableColumnIndex;
 import tr1nks.service.domain.GroupService;
 import tr1nks.service.domain.StudentService;
 import tr1nks.service.logic.CredentialGenerationService;
