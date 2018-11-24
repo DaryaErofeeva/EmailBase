@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.0.0.M4'
+        kotlin_version = '1.2.51'
     }
     repositories {
         mavenCentral()
@@ -9,6 +10,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -17,6 +19,7 @@ apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "kotlin"
 
 group 'Tr1nks'
 version '1.0-SNAPSHOT'
@@ -44,6 +47,8 @@ ext {
     iTextPdfVersion = "5.5.11"
     log4jVersion = "1.2.17"
     thymeleafExtrasSpringsecurity4Version = "3.0.2.RELEASE"
+    commonsCsvVersion = "1.6"
+    kotlinReflectVersion = "1.1.51"
 }
 dependencies {
 
@@ -67,10 +72,24 @@ dependencies {
 
     compile("com.itextpdf:itextpdf:${iTextPdfVersion}")
     compile("com.itextpdf.tool:xmlworker:${iTextPdfVersion}")
-    
-    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
+
+    compile("org.apache.commons:commons-csv:${commonsCsvVersion}")
 
     runtime("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
     testCompile "junit:junit:${junitVersion}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinReflectVersion}"
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

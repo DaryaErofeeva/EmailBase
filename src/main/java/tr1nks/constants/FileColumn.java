@@ -1,4 +1,4 @@
-package tr1nks.enums;
+package tr1nks.constants;
 
 public class FileColumn {
     public static final String SURNAME = "Фамилия";

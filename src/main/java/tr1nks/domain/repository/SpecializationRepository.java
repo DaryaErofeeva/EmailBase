@@ -13,6 +13,8 @@ import javax.persistence.criteria.Join;
 
 public interface SpecializationRepository extends JpaRepository<SpecializationEntity, Long>, JpaSpecificationExecutor<SpecializationEntity> {
 
+    SpecializationEntity getTopBySpecializationIdAndSpecialityEntityId(int specializationId, long specialityId);
+
     class SpecializationEntitySpecifications {
 
         public static Specification<SpecializationEntity> hasSpecializationId(int specializationId) {

@@ -4,7 +4,7 @@ import java.util.UUID;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-import tr1nks.enums.UserRole;
+import tr1nks.constants.UserRole;
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(UserEntity.class)

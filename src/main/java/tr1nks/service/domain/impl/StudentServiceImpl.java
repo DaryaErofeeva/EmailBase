@@ -1,31 +1,47 @@
 package tr1nks.service.domain.impl;
 
+import jdk.nashorn.internal.runtime.Specialization;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import tr1nks.component.converter.EntityDTOConverter;
 import tr1nks.controller.person.PersonController;
 import tr1nks.domain.dto.StudentDTO;
-import tr1nks.domain.entity.MyEntity;
-import tr1nks.domain.entity.StudentEntity;
-import tr1nks.domain.repository.StudentRepository;
-import tr1nks.enums.StudentField;
-import tr1nks.enums.TableColumnErrorMessages;
+import tr1nks.domain.entity.*;
+import tr1nks.domain.repository.*;
+import tr1nks.constants.StudentField;
+import tr1nks.constants.TableColumnErrorMessages;
 import tr1nks.model.person.student.StudentPageModel;
 import tr1nks.service.domain.StudentService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
     private static final int PAGE_SIZE = 50;
+
     @Resource
     private StudentRepository studentRepository;
-    //    @Resource
-//    private ParseService parseService;
+
+    @Resource
+    private GroupRepository groupRepository;
+
+    @Resource
+    private FacultyRepository facultyRepository;
+
+    @Resource
+    private SpecializationRepository specializationRepository;
+
+    @Resource
+    private StudyLevelRepository studyLevelRepository;
+
+    @Resource
+    private SpecialityRepository specialityRepository;
+
     @Resource
     private EntityDTOConverter<StudentDTO, StudentEntity> studentEntityDTOConverter;
 
@@ -107,8 +123,64 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentEntity save(StudentEntity student) {
-        return studentRepository.save(student);
+    public void save(StudentEntity student) {
+        student.setGroupEntity(getOrSaveGroup(student.getGroupEntity()));
+        studentRepository.save(student);
+    }
+
+    private SpecialityEntity getOrSaveSpeciality(SpecialityEntity specialityEntity) {
+        SpecialityEntity studentSpecialityEntity = specialityRepository
+                .getTopBySpecialityId(specialityEntity.getSpecialityId());
+
+        return Optional.ofNullable(studentSpecialityEntity).isPresent() ? studentSpecialityEntity :
+                specialityRepository.save(specialityEntity);
+    }
+
+    private SpecializationEntity getOrSaveSpecialization(SpecializationEntity specializationEntity) {
+        specializationEntity.setSpecialityEntity(getOrSaveSpeciality(specializationEntity.getSpecialityEntity()));
+
+        SpecializationEntity studentSpecializationEntity =
+                specializationRepository.getTopBySpecializationIdAndSpecialityEntityId(
+                        specializationEntity.getSpecializationId(),
+                        specializationEntity.getSpecialityEntity().getSpecialityId());
+
+        return Optional.ofNullable(studentSpecializationEntity).isPresent() ? studentSpecializationEntity :
+                specializationRepository.save(specializationEntity);
+    }
+
+    private FacultyEntity getOrSaveFaculty(FacultyEntity facultyEntity) {
+        FacultyEntity studentFacultyEntity = facultyRepository.getTopByFacultyId(facultyEntity.getFacultyId());
+
+        return Optional.ofNullable(studentFacultyEntity).isPresent() ? studentFacultyEntity :
+                facultyRepository.save(facultyEntity);
+    }
+
+    private StudyLevelEntity getOrSaveStudyLevel(StudyLevelEntity studyLevelEntity) {
+        StudyLevelEntity studentStudyLevelEntity = studyLevelRepository.getTopByLevelId(studyLevelEntity.getLevelId());
+
+        return Optional.ofNullable(studentStudyLevelEntity).isPresent() ? studentStudyLevelEntity :
+                studyLevelRepository.save(studyLevelEntity);
+    }
+
+    private GroupEntity getOrSaveGroup(GroupEntity groupEntity) {
+        groupEntity.setFacultyEntity(getOrSaveFaculty(groupEntity.getFacultyEntity()));
+        groupEntity.setSpecializationEntity(getOrSaveSpecialization(groupEntity.getSpecializationEntity()));
+        groupEntity.setStudyLevelEntity(getOrSaveStudyLevel(groupEntity.getStudyLevelEntity()));
+
+        GroupEntity studentGroupEntity = groupRepository
+                .getTopByFacultyEntityIdAndSpecializationEntityIdAndStudyLevelEntityIdAndNumAndYear(
+                        groupEntity.getFacultyEntity().getId(),
+                        groupEntity.getSpecializationEntity().getId(),
+                        groupEntity.getStudyLevelEntity().getId(),
+                        groupEntity.getNum(), groupEntity.getYear());
+
+        return Optional.ofNullable(studentGroupEntity).isPresent() ? studentGroupEntity :
+                groupRepository.save(groupEntity);
+    }
+
+    @Override
+    public void save(List<StudentEntity> students) {
+        students.forEach(this::save);
     }
 
     @Override
