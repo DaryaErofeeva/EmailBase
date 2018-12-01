@@ -12,6 +12,7 @@ import tr1nks.component.CustomAuthenticationProvider;
 import tr1nks.controller.Controller;
 import tr1nks.controller.common.CommonController;
 import tr1nks.controller.domain.DomainController;
+import tr1nks.controller.filter.FilterController;
 import tr1nks.controller.parse.ParseController;
 import tr1nks.controller.person.PersonController;
 import tr1nks.constants.UserRole;
@@ -54,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(DomainController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN))
                 .antMatchers(ParseController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(CommonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
+                .antMatchers(FilterController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(Controller.LOGIN_URL + "/**").permitAll()
                 .and().formLogin()
                 .loginPage(Controller.LOGIN_URL)
