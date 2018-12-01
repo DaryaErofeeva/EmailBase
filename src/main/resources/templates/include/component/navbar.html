@@ -45,7 +45,7 @@
     <ul class="navbar-nav mr-auto col-10">
         <th:block th:replace="include/component/navbar :: navLi('/common/main','main','fas fa-home')"/>
         <th:block th:replace="include/component/navbar :: navLi('/parse/upload','Upload','fas fa-upload')"/>
-        <th:block th:replace="include/component/navbar :: navLi('/person/student','Students','fas fa-user-graduate')"/>
+        <th:block th:replace="include/component/navbar :: navLi('/student','Students','fas fa-user-graduate')"/>
 
         <th:block sec:authorize="${hasRole(T(tr1nks.constants.UserRole).ADMIN.getRoleWithPrefix())}"
                   th:replace="include/component/navbar :: navLi('/a/administration','Domen','fas fa-cogs')"/>

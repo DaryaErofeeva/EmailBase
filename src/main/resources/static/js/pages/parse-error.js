@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    (new ParseErrorPageHandler()).init();
+    new ParseErrorPageHandler();
 });
 
 class StudentHelper {
@@ -8,32 +8,11 @@ class StudentHelper {
     }
 
     getStudentById(id) {
-        let result = {};
-
-        this.students.forEach((student) => {
-            if (student.id === id) {
-                result = student;
-            }
-        });
-
-        return result;
+        return this.students[id];
     }
 
-    setStudent(student) {
-        this.removeStudentById(student.id);
-        this.students.push(student);
-    }
-
-    removeStudentById(id) {
-        let result = [];
-
-        this.students.forEach((student) => {
-            if (student.id !== id) {
-                result.push(student);
-            }
-        });
-
-        this.students = result;
+    setStudent(student, index) {
+        this.students[index] = student;
     }
 }
 
@@ -93,21 +72,23 @@ class Paginator {
 }
 
 class ParseErrorPageHandler {
+    constructor() {
+        this.sendGetDataRequest();
+    }
+
     /**
      * Method initialize class
      */
     init() {
-        this.sendGetDataRequest();
-
         this.studentHelper = new StudentHelper(this.response);
-        this.paginator = new Paginator(this.response.length);
+        this.paginator = new Paginator(this.errorFieldsCount);
 
         this.paginator.init();
         this.$tableBody = $('.error-students-table');
 
         this.$continueBtn = $('.continue-btn');
         this.rowClass = 'error-student-row';
-        this.errorFieldClass ='js-error-field';
+        this.errorFieldClass = 'js-error-field';
 
         this.hasErrorClass = 'alert alert-danger';
 
@@ -130,8 +111,8 @@ class ParseErrorPageHandler {
         this.response.forEach((student, index) => {
             if (index >= fromTo.from && index <= fromTo.to)
                 html += `
-          <tr data-id="${student.id}" class="${this.rowClass}">
-              <th scope="row">${student.id}</th>
+          <tr data-id="${index}" class="${this.rowClass}">
+              <th scope="row">${index}</th>
               <td>${student.surname}</td>
               <td>${student.name}</td>
               <td>${student.patronymic}</td>
@@ -166,8 +147,8 @@ class ParseErrorPageHandler {
 
             if (!isInputType && !$field.hasClass('readonly')) {
                 $field.html(`
-            <input type="text" class="form-control col edit-input" data-origin-text="${text}" value="${text}"/>
-        `);
+                    <input type="text" class="form-control col edit-input" data-origin-text="${text}" value="${text}"/>
+                `);
             }
         });
 
@@ -187,12 +168,12 @@ class ParseErrorPageHandler {
     }
 
     showErrorCells() {
-        this.response.forEach((student) => {
+        this.response.forEach((student, index) => {
             const errorField = student.errorField;
             const errorMessage = student.errorMessage;
 
-            if (errorField.length || errorMessage.length ) {
-                const wrapperSelector = `.error-student-row[data-id="${student.id}"]`;
+            if (errorField.length || errorMessage.length) {
+                const wrapperSelector = `.error-student-row[data-id="${index}"]`;
 
                 $(`${wrapperSelector} .error-input-${errorField}`)
                     .prop('title', errorMessage)
@@ -215,11 +196,12 @@ class ParseErrorPageHandler {
             if ($item.val() !== originText) {
                 $row.removeClass(this.hasErrorClass).addClass('readonly');
 
+                index = this.response.indexOf(student)
                 student[field] = $row.html();
                 student['errorField'] = '';
                 student['errorMessage'] = '';
 
-                this.studentHelper.setStudent(student);
+                this.studentHelper.setStudent(student, index);
                 this.reduceErrorFieldsCount();
 
             } else {
@@ -249,11 +231,15 @@ class ParseErrorPageHandler {
             contentType: 'application/json',
             dataType: 'json',
             success: (data) => {
-                this.response = JSON.parse(data);
+                this.setResponse(data);
             }
         });
+    }
 
+    setResponse(data) {
+        this.response = data;console.log(data,this.response);
         this.errorFieldsCount = this.response.length;
+        this.init();
     }
 
     sendPostDataRequest() {
