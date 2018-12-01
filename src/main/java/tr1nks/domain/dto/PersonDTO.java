@@ -32,6 +32,22 @@ public abstract class PersonDTO extends MyDTO {
         this.errorMessage = errorMessage;
     }
 
+    public PersonDTO(long id, String surname, String name, String patronymic, String code, String login,
+                     String initPassword, boolean imagine, boolean office, String errorField,
+                     String errorMessage) {
+        super(id);
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.code = code;
+        this.login = login;
+        this.initPassword = initPassword;
+        this.imagine = imagine;
+        this.office = office;
+        this.errorField = errorField;
+        this.errorMessage = errorMessage;
+    }
+
     public PersonDTO(String surname, String name, String patronymic, String code, String login,
                      String initPassword, boolean imagine, boolean office, StudentField errorField,
                      String errorMessage) {
@@ -46,6 +62,22 @@ public abstract class PersonDTO extends MyDTO {
         this.errorField = errorField.field;
         this.errorMessage = errorMessage;
     }
+
+    public PersonDTO(String surname, String name, String patronymic, String code, String login,
+                     String initPassword, boolean imagine, boolean office, String errorField,
+                     String errorMessage) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.code = code;
+        this.login = login;
+        this.initPassword = initPassword;
+        this.imagine = imagine;
+        this.office = office;
+        this.errorField = errorField;
+        this.errorMessage = errorMessage;
+    }
+
     public PersonDTO(String surname, String name, String patronymic, String code, String login,
                      String initPassword, boolean imagine, boolean office) {
         this.surname = surname;
@@ -143,6 +175,10 @@ public abstract class PersonDTO extends MyDTO {
 
     public void setErrorField(StudentField errorFieldIndex) {
         this.errorField = errorFieldIndex.field;
+    }
+
+    public void setErrorField(String errorField) {
+        this.errorField = errorField;
     }
 
     public String getErrorMessage() {
