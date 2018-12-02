@@ -18,6 +18,8 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long>, J
 
     StudentEntity getFirstByCode(String code);
 
+    List<StudentEntity> findAllByGroupEntityFacultyEntityNameOrGroupEntityYear(String facultyName, Integer year);
+
     class StudentSpecifications {
         public static Specification<StudentEntity> hasIdIn(List<Long> ids) {
             return Specification.where((root, query, criteriaBuilder) -> root.get(StudentEntity_.id).in(ids));
