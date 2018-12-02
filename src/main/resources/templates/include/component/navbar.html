@@ -10,16 +10,15 @@
 
 <!--profile menu-->
 <th:block th:fragment="profileUl">
-    <ul class="navbar-nav mr-auto col-2">
+    <ul class="navbar-nav bg-dark">
         <th:block sec:authorize="!isAuthenticated()">
-            <th:block th:replace="include/component/navbar :: navLi('/login','login','fas fa-sign-in-alt')"/>
+            <li class="nav-item">
+                <a href="/login" class="bg-dark nav-link"><i class="fas fa-sign-in-alt"></i> <b>Войти</b></a>
+            </li>
         </th:block>
         <th:block sec:authorize="isAuthenticated()">
             <li class="nav-item">
-                <form th:action="@{/logout}" method="post">
-                    <th:block th:replace="/include/service/csrf :: tokenInput"/>
-                    <button type="submit" class="fas fa-sign-out-alt bg-dark border-0 nav-link " th:text="logout"></button>
-                </form>
+                <a href="/logout" class="bg-dark nav-link"><i class="fas fa-sign-out-alt"></i> <b>Выйти</b></a>
             </li>
         </th:block>
     </ul>
@@ -43,12 +42,12 @@
 <!--navigation menu-->
 <th:block th:fragment="navUl">
     <ul class="navbar-nav mr-auto col-10">
-        <th:block th:replace="include/component/navbar :: navLi('/common/main','main','fas fa-home')"/>
-        <th:block th:replace="include/component/navbar :: navLi('/parse/upload','Upload','fas fa-upload')"/>
-        <th:block th:replace="include/component/navbar :: navLi('/student','Students','fas fa-user-graduate')"/>
-
-        <th:block sec:authorize="${hasRole(T(tr1nks.constants.UserRole).ADMIN.getRoleWithPrefix())}"
-                  th:replace="include/component/navbar :: navLi('/a/administration','Domen','fas fa-cogs')"/>
+        <li class="nav-item">
+            <a href="/student" class="bg-dark nav-link"><i class="fas fa-user-graduate"></i> <b>Студенты</b></a>
+        </li>
+        <li class="nav-item">
+            <a href="/parse/upload" class="bg-dark nav-link"><i class="fas fa-upload"></i> <b>Загрузить</b></a>
+        </li>
     </ul>
 </th:block>
 
