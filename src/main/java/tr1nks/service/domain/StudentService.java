@@ -14,7 +14,7 @@ public interface StudentService {
     void save(List<StudentDTO> students, HttpSession httpSession);
 
     @NotNull
-    List<StudentDTO> getAll();
+    List<StudentDTO> getAllStudents();
 
     boolean testEmail(String login);
 

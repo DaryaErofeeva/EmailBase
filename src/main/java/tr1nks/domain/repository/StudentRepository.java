@@ -4,6 +4,8 @@ package tr1nks.domain.repository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import tr1nks.domain.entity.*;
 
 import javax.persistence.criteria.Join;
