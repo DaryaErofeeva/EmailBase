@@ -12,7 +12,7 @@ public interface StudentService {
 
     void save(List<StudentDTO> students, HttpSession httpSession);
 
-    void getAll();
+    List<StudentDTO> getAll();
 
     boolean testEmail(String login);
 
