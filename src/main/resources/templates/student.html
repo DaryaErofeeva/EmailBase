@@ -4,53 +4,56 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<script type="text/javascript" th:src="@{~/js/pages/student.js}"></script>
 <header th:replace="include/component/header :: header"></header>
-<div>
-    <hr class="col-10 offset-1">
-    <div class="col-10 offset-1 mx-auto">
-        <form th:action="@{/person/student/json}" id="student-page-form" method="post">
-            <table id="person-table" class="table table-hover table-sm">
-                <thead></thead>
-                <tbody><!--Will be fill by JS--></tbody>
-            </table>
-            <div id="page-controlling-div" class="mx-auto col-9">
-                <div id="page-controls-div" class="d-block mx-auto col-3">
-                    <button
-                            type="button"
-                            class="fas fa-arrow-alt-circle-left btn btn-success d-inline"
-                            formaction="#"
-                            id="previous-page">
-                    </button>
-                    <input type="text" readonly id="page-number" class="input col-2 d-inline"/>
-                    <button
-                            type="button"
-                            class="fas fa-arrow-alt-circle-right btn btn-success d-inline"
-                            formaction="#"
-                            id="next-page">
-                    </button>
-                </div>
-                <div id="action-buttons-div" class="d-block mx-auto row">
-                    <div class="mx-auto col-4">
-                        <button type="submit" class="btn btn-primary">button 1</button>
-                        <button type="button" class="btn btn-primary">button 4</button>
-                        <button type="button" class="btn btn-primary">button 7</button>
-                    </div>
-                    <div class="mx-auto col-4">
-                        <button type="button" class="btn btn-primary">button 2</button>
-                        <button type="button" class="btn btn-primary">button 5</button>
-                        <button type="button" class="btn btn-primary">button 8</button>
-                    </div>
-                    <div class="mx-auto col-4">
-                        <button type="button" class="btn btn-primary">button 3</button>
-                        <button type="button" class="btn btn-primary">button 6</button>
-                        <button type="button" class="btn btn-primary">button 9</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+<div class="page-wrapper">
+    <div class="container col-md-4 border p-4 mt-4 mb-4">
+        <div class="row text-center">
+            <label class="col m-1 select-input" for="faculty"><b>Факультет</b></label>
+            <label class="col m-1 select-input" for="group"><b>Группа</b></label>
+            <label class="col m-1 select-input" for="year"><b>Год поступления</b></label>
+        </div>
+        <div class="row filters-selects"><!-- Will be filled by JS --></div>
+        <div class="row msg-box-filters"></div>
+        <div class="row">
+            <button type="button" class="col m-1 filters-apply btn btn-primary"><b>Применить фильтры</b></button>
+        </div>
+    </div>
+    <table class="table table-responsive-xs table-hover border">
+        <thead class="bg-dark text-white">
+        <tr class="text-center">
+            <th scope="col">Выбор</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Логин</th>
+            <th scope="col">Группа</th>
+            <th scope="col">Бюджет</th>
+            <th scope="col">Imagine</th>
+            <th scope="col">Office</th>
+        </tr>
+        </thead>
+        <tbody class="students-table text-center"><!-- Will be filled by JS --></tbody>
+    </table>
+
+    <nav><ul class="pagination justify-content-center"></ul></nav>
+
+    <div class="container">
+        <div class="row">
+            <button type="button" data-field="budget" class="set-btn col m-1 btn btn-success"><b>Установить Бюджет</b></button>
+            <button type="button" data-field="imagine" class="set-btn col m-1 btn btn-success"><b>Установить Imagine</b></button>
+            <button type="button" data-field="office" class="set-btn col m-1 btn btn-success"><b>Установить Office</b></button>
+        </div>
+        <div class="row">
+            <button type="button" data-field="budget" class="unset-btn col m-1 btn btn-danger"><b>Снять Бюджет</b></button>
+            <button type="button" data-field="imagine" class="unset-btn col m-1 btn btn-danger"><b>Снять Imagine</b></button>
+            <button type="button" data-field="office" class="unset-btn col m-1 btn btn-danger"><b>Снять Office</b></button>
+        </div>
+        <div class="row">
+            <button type="button" data-field="selected" data-state="true" class="col m-1 btn btn-primary select-all"><b>Выбрать всех</b></button>
+            <button type="button" class="col m-1 btn btn-primary send-updated-data"><b>Отправить обновленные данные</b></button>
+        </div>
     </div>
 </div>
-<footer></footer>
+<script type="text/javascript" th:src="@{~/js/pages/student.js}"></script>
 </body>
 </html>
