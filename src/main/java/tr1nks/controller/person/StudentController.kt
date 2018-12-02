@@ -2,6 +2,7 @@ package tr1nks.controller.person
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import tr1nks.controller.person.PersonController.STUDENT_PAGE_URL
 import tr1nks.controller.person.PersonController.STUDENT_VIEW_NAME
 import tr1nks.service.domain.StudentService
@@ -15,6 +16,7 @@ class StudentController(
     @GetMapping(STUDENT_VIEW_NAME)
     fun get() = STUDENT_VIEW_NAME
 
+    @ResponseBody
     @GetMapping(STUDENT_PAGE_URL)
     fun getStudents() = studentService.getAll()
 }
