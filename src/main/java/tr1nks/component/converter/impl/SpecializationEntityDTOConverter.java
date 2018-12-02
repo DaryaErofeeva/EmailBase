@@ -11,8 +11,9 @@ import javax.annotation.Resource;
 
 @Component
 public class SpecializationEntityDTOConverter implements EntityDTOConverter<SpecializationDTO, SpecializationEntity> {
+
     @Resource
-    private EntityDTOConverter<SpecialityDTO, SpecialityEntity> specialityEntityDTOConverter;
+    private SpecialityEntityDTOConverter specialityEntityDTOConverter;
 
     @Override
     public SpecializationDTO toDTO(SpecializationEntity entity) {
@@ -22,7 +23,7 @@ public class SpecializationEntityDTOConverter implements EntityDTOConverter<Spec
 
     @Override
     public SpecializationEntity toEntity(SpecializationDTO dto) {
-        return new SpecializationEntity(dto.getSpecializationId(), dto.getName(),
+        return new SpecializationEntity(dto.getId(), dto.getSpecializationId(), dto.getName(),
                 specialityEntityDTOConverter.toEntity(dto.getSpecialityDTO()));
     }
 }

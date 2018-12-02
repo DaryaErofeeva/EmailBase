@@ -7,6 +7,7 @@ import tr1nks.domain.entity.SpecialityEntity;
 
 @Component
 public class SpecialityEntityDTOConverter implements EntityDTOConverter<SpecialityDTO, SpecialityEntity> {
+
     @Override
     public SpecialityDTO toDTO(SpecialityEntity entity) {
         return new SpecialityDTO(entity.getId(), entity.getSpecialityId(), entity.getName());
@@ -14,6 +15,6 @@ public class SpecialityEntityDTOConverter implements EntityDTOConverter<Speciali
 
     @Override
     public SpecialityEntity toEntity(SpecialityDTO dto) {
-        return new SpecialityEntity(dto.getSpecialityId(), dto.getName());
+        return new SpecialityEntity(dto.getId(), dto.getSpecialityId(), dto.getName());
     }
 }

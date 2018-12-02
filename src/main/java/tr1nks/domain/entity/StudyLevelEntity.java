@@ -15,8 +15,9 @@ public class StudyLevelEntity extends MyEntity {
     @Column(name = "name", nullable = false, length = 30)
     private String name;
 
-    public StudyLevelEntity(int id, String name) {
-        this.levelId = id;
+    public StudyLevelEntity(long id, int levelId, String name) {
+        setId(id);
+        this.levelId = levelId;
         this.name = name;
     }
 
