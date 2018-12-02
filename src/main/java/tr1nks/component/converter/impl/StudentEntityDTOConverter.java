@@ -11,8 +11,9 @@ import javax.annotation.Resource;
 
 @Component
 public class StudentEntityDTOConverter implements EntityDTOConverter<StudentDTO, StudentEntity> {
+
     @Resource
-    private EntityDTOConverter<GroupDTO, GroupEntity> groupEntityDTOConverter;
+    private GroupEntityDTOConverter groupEntityDTOConverter;
 
     @Override
     public StudentDTO toDTO(StudentEntity entity) {
@@ -32,6 +33,7 @@ public class StudentEntityDTOConverter implements EntityDTOConverter<StudentDTO,
     @Override
     public StudentEntity toEntity(StudentDTO dto) {
         return new StudentEntity(
+                dto.getId(),
                 dto.getSurname(),
                 dto.getName(),
                 dto.getPatronymic(),

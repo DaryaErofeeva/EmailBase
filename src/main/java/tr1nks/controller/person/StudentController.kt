@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
 import tr1nks.controller.person.PersonController.STUDENT_PAGE_URL
 import tr1nks.controller.person.PersonController.STUDENT_VIEW_NAME
 import tr1nks.domain.dto.StudentDTO
 import tr1nks.service.domain.StudentService
-import javax.annotation.Resource
 
 @Controller
 class StudentController @Autowired constructor(
@@ -23,6 +23,7 @@ class StudentController @Autowired constructor(
     @GetMapping(STUDENT_PAGE_URL)
     fun getStudents() = studentService.getAllStudents()
 
+    @ResponseBody
     @PostMapping(STUDENT_PAGE_URL)
-    fun updateStudents(studentsDTO: List<StudentDTO>) = studentService.updateStudents(studentsDTO)
+    fun updateStudents(@RequestBody studentsDTO: List<StudentDTO>) = studentService.updateStudents(studentsDTO)
 }

@@ -15,12 +15,15 @@ import javax.annotation.Resource;
 
 @Component
 public class GroupEntityDTOConverter implements EntityDTOConverter<GroupDTO, GroupEntity> {
+
     @Resource
-    private EntityDTOConverter<StudyLevelDTO, StudyLevelEntity> studyLevelEntityDTOConverter;
+    private StudyLevelEntityDTOConverter studyLevelEntityDTOConverter;
+
     @Resource
-    private EntityDTOConverter<FacultyDTO, FacultyEntity> facultyEntityDTOConverter;
+    private FacultyEntityDTOConverter facultyEntityDTOConverter;
+
     @Resource
-    private EntityDTOConverter<SpecializationDTO, SpecializationEntity> specializationEntityDTOConverter;
+    private SpecializationEntityDTOConverter specializationEntityDTOConverter;
 
     @Override
     public GroupDTO toDTO(GroupEntity entity) {
@@ -33,7 +36,7 @@ public class GroupEntityDTOConverter implements EntityDTOConverter<GroupDTO, Gro
 
     @Override
     public GroupEntity toEntity(GroupDTO dto) {
-        return new GroupEntity(
+        return new GroupEntity(dto.getId(),
                 studyLevelEntityDTOConverter.toEntity(dto.getStudyLevelDTO()),
                 facultyEntityDTOConverter.toEntity(dto.getFacultyDTO()),
                 specializationEntityDTOConverter.toEntity(dto.getSpecializationDTO()),

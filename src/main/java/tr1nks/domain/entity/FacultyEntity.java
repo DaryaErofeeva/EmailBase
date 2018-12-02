@@ -18,7 +18,8 @@ public class FacultyEntity extends MyEntity {
     @OneToMany(mappedBy = "facultyEntity")
     private List<GroupEntity> groupEntities;
 
-    public FacultyEntity(int facultyId, String name, String abbr) {
+    public FacultyEntity(long id, int facultyId, String name, String abbr) {
+        setId(id);
         this.facultyId = facultyId;
         this.name = name;
         this.abbr = abbr;

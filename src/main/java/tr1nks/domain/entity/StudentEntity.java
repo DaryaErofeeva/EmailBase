@@ -16,15 +16,18 @@ public class StudentEntity extends PersonEntity {
     @Column(name = "budget", nullable = false, columnDefinition = "bit(1) default false")
     private boolean budget;
 
-    public StudentEntity(String surname, String name, String patronymic, String code, GroupEntity groupEntity, String login, String initPassword, boolean budget) {
+    public StudentEntity(long id, String surname, String name, String patronymic, String code, GroupEntity groupEntity, String login, String initPassword, boolean budget) {
         this(surname, name, patronymic, code, groupEntity);
+        setId(id);
         setLogin(login);
         setInitPassword(initPassword);
         this.budget = budget;
     }
-    public StudentEntity(String surname, String name, String patronymic, String code, GroupEntity groupEntity, String login, String initPassword, boolean imagine, boolean office, boolean budget) {
-        super(surname, name, patronymic, code,imagine,office);
+
+    public StudentEntity(long id, String surname, String name, String patronymic, String code, GroupEntity groupEntity, String login, String initPassword, boolean imagine, boolean office, boolean budget) {
+        super(surname, name, patronymic, code, imagine, office);
         this.groupEntity = groupEntity;
+        setId(id);
         setLogin(login);
         setInitPassword(initPassword);
         this.budget = budget;
