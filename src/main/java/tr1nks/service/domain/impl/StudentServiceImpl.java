@@ -1,6 +1,7 @@
 package tr1nks.service.domain.impl;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import tr1nks.component.converter.impl.plural.StudentEntitiesDtosConverter;
 import tr1nks.constants.StudentField;
@@ -69,8 +70,9 @@ public class StudentServiceImpl implements StudentService {
 
     @NotNull
     @Override
-    public List<StudentDTO> getAllStudents() {
-        return studentEntitiesDtosConverter.toDTO(studentRepository.findAll());
+    public List<StudentDTO> getStudents(String facultyName, Integer year) {
+        return studentEntitiesDtosConverter.toDTO(studentRepository
+                .findAllByGroupEntityFacultyEntityNameOrGroupEntityYear(facultyName, year));
     }
 
     @NotNull

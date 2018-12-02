@@ -1,6 +1,7 @@
 package tr1nks.service.domain;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import tr1nks.domain.dto.StudentDTO;
 import tr1nks.domain.entity.StudentEntity;
 
@@ -14,7 +15,7 @@ public interface StudentService {
     void save(List<StudentDTO> students, HttpSession httpSession);
 
     @NotNull
-    List<StudentDTO> getAllStudents();
+    List<StudentDTO> getStudents(String facultyName, Integer year);
 
     boolean testEmail(String login);
 

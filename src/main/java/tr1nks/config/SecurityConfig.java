@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity security) throws Exception {
         security.authorizeRequests()
                 .antMatchers(PersonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
+                .antMatchers(PersonController.STUDENT_VIEW_NAME + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(DomainController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN))
                 .antMatchers(ParseController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(CommonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
