@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static tr1nks.controller.person.PersonController.ERROR_STUDENT_SESSION_NAME;
 import static tr1nks.controller.person.PersonController.STUDENT_SESSION_NAME;
@@ -63,14 +64,16 @@ public class StudentServiceImpl implements StudentService {
 
     @NotNull
     @Override
-    public List<StudentDTO> getAll() {
+    public List<StudentDTO> getAllStudents() {
         return studentEntitiesDtosConverter.toDTO(studentRepository.findAll());
     }
 
     @NotNull
     @Override
     public List<StudentDTO> updateStudents(@NotNull List<StudentDTO> studentsDTO) {
-        return getAll();
+        return studentEntitiesDtosConverter
+                .toDTO(studentEntitiesDtosConverter.toEntity(studentsDTO).stream()
+                        .map(studentEntity -> studentRepository.save(studentEntity)).collect(Collectors.toList()));
     }
 
     @Override

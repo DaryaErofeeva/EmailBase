@@ -20,7 +20,7 @@ class StudentController(
 
     @ResponseBody
     @GetMapping(STUDENT_PAGE_URL)
-    fun getStudents() = studentService.getAll()
+    fun getStudents() = studentService.getAllStudents()
 
     @PostMapping(STUDENT_PAGE_URL)
     fun updateStudents(studentsDTO: List<StudentDTO>) = studentService.updateStudents(studentsDTO)
