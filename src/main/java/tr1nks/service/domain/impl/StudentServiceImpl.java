@@ -1,5 +1,6 @@
 package tr1nks.service.domain.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import tr1nks.component.converter.impl.plural.StudentEntitiesDtosConverter;
 import tr1nks.constants.StudentField;
@@ -60,9 +61,16 @@ public class StudentServiceImpl implements StudentService {
         httpSession.removeAttribute(ERROR_STUDENT_SESSION_NAME);
     }
 
+    @NotNull
     @Override
     public List<StudentDTO> getAll() {
         return studentEntitiesDtosConverter.toDTO(studentRepository.findAll());
+    }
+
+    @NotNull
+    @Override
+    public List<StudentDTO> updateStudents(@NotNull List<StudentDTO> studentsDTO) {
+        return getAll();
     }
 
     @Override
