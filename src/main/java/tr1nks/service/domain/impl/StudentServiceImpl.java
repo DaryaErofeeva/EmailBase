@@ -61,8 +61,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void getAll() {
-        studentRepository.findAll();
+    public List<StudentDTO> getAll() {
+        return studentEntitiesDtosConverter.toDTO(studentRepository.findAll());
     }
 
     @Override
