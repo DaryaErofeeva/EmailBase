@@ -1,5 +1,6 @@
 package tr1nks.service.domain;
 
+import org.jetbrains.annotations.NotNull;
 import tr1nks.domain.dto.StudentDTO;
 import tr1nks.domain.entity.StudentEntity;
 
@@ -12,6 +13,7 @@ public interface StudentService {
 
     void save(List<StudentDTO> students, HttpSession httpSession);
 
+    @NotNull
     List<StudentDTO> getAll();
 
     boolean testEmail(String login);
@@ -19,4 +21,7 @@ public interface StudentService {
     boolean testCode(String code);
 
     boolean testStudent(StudentDTO student);
+
+    @NotNull
+    List<StudentDTO> updateStudents(@NotNull List<StudentDTO> studentsDTO);
 }
