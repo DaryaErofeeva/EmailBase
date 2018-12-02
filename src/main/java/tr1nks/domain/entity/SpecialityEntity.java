@@ -5,7 +5,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "speciality")
-@SequenceGenerator(name = "speciality_seq", sequenceName = "speciality_id_seq", initialValue = 1, allocationSize = 1)
 public class SpecialityEntity extends MyEntity {
     @Basic
     @Column(name = "speciality_id", nullable = false, unique = true, length = 3)

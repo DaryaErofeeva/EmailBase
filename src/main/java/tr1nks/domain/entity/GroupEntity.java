@@ -9,7 +9,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "academ_group")
-@SequenceGenerator(name = "academ_group_seq", sequenceName = "academ_group_id_seq", allocationSize = 1)
 public class GroupEntity extends MyEntity {
     @Basic
     @ManyToOne
