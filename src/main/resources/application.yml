@@ -3,7 +3,7 @@ app:
 db: # db properties
   #  driver: com.mysql.cj.jdbc.Driver
   driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/mail_managin_base?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true
+  url: jdbc:mysql://localhost:3306/mail_managin_base?useUnicode=true&characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true
   username: root
   password: root
 #hibernate properties
@@ -12,18 +12,4 @@ hibernate:
   show_sql: true
   format_sql: true
   hbm2ddl:
-    auto: update
-#    auto: create-drop
-
-#spring:
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: baseserverhneu@gmail.com
-#    password: mailserver327
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
+    auto: create
