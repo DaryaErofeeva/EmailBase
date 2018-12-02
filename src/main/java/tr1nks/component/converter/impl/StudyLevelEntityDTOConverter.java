@@ -7,6 +7,7 @@ import tr1nks.domain.entity.StudyLevelEntity;
 
 @Component
 public class StudyLevelEntityDTOConverter implements EntityDTOConverter<StudyLevelDTO, StudyLevelEntity> {
+
     @Override
     public StudyLevelDTO toDTO(StudyLevelEntity entity) {
         return new StudyLevelDTO(entity.getId(), entity.getLevelId(), entity.getName());
@@ -14,6 +15,6 @@ public class StudyLevelEntityDTOConverter implements EntityDTOConverter<StudyLev
 
     @Override
     public StudyLevelEntity toEntity(StudyLevelDTO dto) {
-        return new StudyLevelEntity(dto.getLevelId(), dto.getName());
+        return new StudyLevelEntity(dto.getId(), dto.getLevelId(), dto.getName());
     }
 }

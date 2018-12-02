@@ -17,7 +17,8 @@ public class SpecializationEntity extends MyEntity {
     @JoinColumn(name = "speciality_id", referencedColumnName = "id", nullable = false)
     private SpecialityEntity specialityEntity;
 
-    public SpecializationEntity(int specializationId, String name, SpecialityEntity specialityEntity) {
+    public SpecializationEntity(long id, int specializationId, String name, SpecialityEntity specialityEntity) {
+        setId(id);
         this.specializationId = specializationId;
         this.name = name;
         this.specialityEntity = specialityEntity;

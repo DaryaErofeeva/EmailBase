@@ -7,6 +7,7 @@ import tr1nks.domain.entity.FacultyEntity;
 
 @Component
 public class FacultyEntityDTOConverter implements EntityDTOConverter<FacultyDTO, FacultyEntity> {
+
     @Override
     public FacultyDTO toDTO(FacultyEntity entity) {
         return new FacultyDTO(entity.getId(), entity.getFacultyId(), entity.getName(), entity.getAbbr());
@@ -14,6 +15,6 @@ public class FacultyEntityDTOConverter implements EntityDTOConverter<FacultyDTO,
 
     @Override
     public FacultyEntity toEntity(FacultyDTO dto) {
-        return new FacultyEntity(dto.getFacultyId(), dto.getName(), dto.getAbbr());
+        return new FacultyEntity(dto.getId(), dto.getFacultyId(), dto.getName(), dto.getAbbr());
     }
 }

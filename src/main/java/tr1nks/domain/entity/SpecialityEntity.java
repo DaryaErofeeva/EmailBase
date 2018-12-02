@@ -15,7 +15,8 @@ public class SpecialityEntity extends MyEntity {
     @OneToMany(mappedBy = "specialityEntity")
     private List<SpecializationEntity> specializationEntities;
 
-    public SpecialityEntity(int specialityId, String name) {
+    public SpecialityEntity(long id, int specialityId, String name) {
+        setId(id);
         this.specialityId = specialityId;
         this.name = name;
     }
