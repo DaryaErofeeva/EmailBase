@@ -116,190 +116,6 @@ class Paginator {
   }
 }
 
-const json = [
-  {
-    "id": 0,
-    "surname": "Бритвин",
-    "name": "Олег",
-    "patronymic": "Викторович",
-    "code": "oleg123",
-    "login": "oleg4britvin",
-    "initPassword": "123",
-    "imagine": true,
-    "office": false,
-    "errorField": "login",
-    "errorMessage": "Such login already exists in DB",
-    "groupDTO": {
-      "id": 0,
-      "studyLevelDTO": {
-        "id": 0,
-        "levelId": 6,
-        "name": "STUDY_LEVEL_NAME_STUB"
-      },
-      "facultyDTO": {
-        "id": 0,
-        "facultyId": 4,
-        "name": "FACULTY_LEVEL_NAME_STUB",
-        "abbr": "FACULTY_ABBR_STUB"
-      },
-      "specializationDTO": {
-        "id": 0,
-        "specializationId": 12,
-        "name": "SPECIALIZATION_NAME_STUB",
-        "specialityDTO": {
-          "id": 0,
-          "specialityId": 122,
-          "name": "SPECIALITY_NAME_STUB"
-        }
-      },
-      "year": 17,
-      "num": 1
-    },
-    "budget": false
-  },
-  {
-    "id": 1,
-    "surname": "Бышов",
-    "name": "Владислав",
-    "patronymic": "Сергеевич",
-    "code": "vlad123",
-    "login": "vladislav4byshov",
-    "initPassword": "12345",
-    "imagine": false,
-    "office": true,
-    "errorField": "code",
-    "errorMessage": "Such code already exists in DB",
-    "groupDTO": {
-      "id": 0,
-      "studyLevelDTO": {
-        "id": 0,
-        "levelId": 6,
-        "name": "STUDY_LEVEL_NAME_STUB"
-      },
-      "facultyDTO": {
-        "id": 0,
-        "facultyId": 4,
-        "name": "FACULTY_LEVEL_NAME_STUB",
-        "abbr": "FACULTY_ABBR_STUB"
-      },
-      "specializationDTO": {
-        "id": 0,
-        "specializationId": 12,
-        "name": "SPECIALIZATION_NAME_STUB",
-        "specialityDTO": {
-          "id": 0,
-          "specialityId": 121,
-          "name": "SPECIALITY_NAME_STUB"
-        }
-      },
-      "year": 17,
-      "num": 1
-    },
-    "budget": false
-  }
-];
-const filters = {
-  "faculty": [
-    {
-      "id": 1,
-      "facultyId": 1,
-      "name": "Консалтинга и международного бизнеса",
-      "abbr": "КИМБ"
-    },
-    {
-      "id": 2,
-      "facultyId": 2,
-      "name": "Финансовый",
-      "abbr": "ФФ"
-    },
-    {
-      "id": 3,
-      "facultyId": 3,
-      "name": "Менеджмента и маркетинга",
-      "abbr": "МИМ"
-    },
-    {
-      "id": 4,
-      "facultyId": 4,
-      "name": "Экономической Информатики",
-      "abbr": "ЭИ"
-    },
-    {
-      "id": 5,
-      "facultyId": 5,
-      "name": "Экономики и права",
-      "abbr": "ЭП"
-    },
-    {
-      "id": 6,
-      "facultyId": 6,
-      "name": "Международных экономических отношений",
-      "abbr": "МЭО"
-    },
-    {
-      "id": 7,
-      "facultyId": 46,
-      "name": "Подготовки иностранных граждан",
-      "abbr": "ПИГ"
-    }
-  ],
-  "group": [
-    {
-      "id": 7,
-      "studyLevelDTO": {
-        "id": 6,
-        "levelId": 6,
-        "name": "Бакалавр"
-      },
-      "facultyDTO": {
-        "id": 4,
-        "facultyId": 4,
-        "name": "Экономической Информатики",
-        "abbr": "ЭИ"
-      },
-      "specializationDTO": {
-        "id": 2,
-        "specializationId": 1,
-        "name": "Економічна теорія та економічна політика",
-        "specialityDTO": {
-          "id": 51,
-          "specialityId": 51,
-          "name": "Економіка"
-        }
-      },
-      "year": 17,
-      "num": 1
-    },
-    {
-      "id": 11,
-      "studyLevelDTO": {
-        "id": 6,
-        "levelId": 6,
-        "name": "Бакалавр"
-      },
-      "facultyDTO": {
-        "id": 4,
-        "facultyId": 4,
-        "name": "Экономической Информатики",
-        "abbr": "ЭИ"
-      },
-      "specializationDTO": {
-        "id": 39,
-        "specializationId": 12,
-        "name": "Інженерія програмного забезпечення Маг",
-        "specialityDTO": {
-          "id": 121,
-          "specialityId": 121,
-          "name": "Інженерія програмного забезпечення"
-        }
-      },
-      "year": 17,
-      "num": 1
-    }
-  ],
-  "year": [17,16]
-};
-
 $(document).ready(() => {
     (new StudentPageHandler());
 });
@@ -419,7 +235,6 @@ class StudentPageHandler {
    */
   initFilters() {
     this.renderFilters();
-    //TODO: need to remove when backend will be ready
   }
 
   /**
@@ -450,57 +265,6 @@ class StudentPageHandler {
     this.sendGetGroupRequest();
     this.sendGetYearRequest();
   }
-
-  sendGetFacultyRequest() {
-    $.ajax({
-      url: '/filter/faculty',
-      type: 'get',
-      data: {},
-      async: false,
-      contentType: 'application/json',
-      dataType: 'json',
-      success: (data) => {
-        data.forEach((facultyInfo) => {
-            this.filters.faculty.push({
-                name: facultyInfo.name,
-                abbr: facultyInfo.abbr
-            });
-        });
-      }
-    });
-   }
-
-    sendGetGroupRequest() {
-        $.ajax({
-            url: '/filter/group',
-            type: 'get',
-            data: {},
-            async: false,
-            contentType: 'application/json',
-            dataType: 'json',
-            success: (data) => {
-                data.forEach((groupDTO) => {
-                    this.filters.group.push(this.studentHelper.getGroupNumber(groupDTO))
-                });
-            }
-        });
-    }
-
-    sendGetYearRequest() {
-        $.ajax({
-            url: '/filter/year',
-            type: 'get',
-            data: {},
-            async: false,
-            contentType: 'application/json',
-            dataType: 'json',
-            success: (data) => {
-                this.filters.year = data;
-
-                this.init();
-            }
-        });
-    }
 
   /**
    * Handle all changes in table
@@ -568,8 +332,8 @@ class StudentPageHandler {
       const field = $item.attr('id');
 
       if (value !== '-') {
-        this.filters[field] = value;
-        this.sendGetStudentsRequest();
+        let url = `/person/student?${field[0]}=${value}`;
+        this.sendGetStudentsRequest(url);
       } else {
         unselectedCount++;
       }
@@ -632,7 +396,6 @@ class StudentPageHandler {
 
     let faculties = [];
     this.filters.faculty.forEach((faculty) => {
-      console.log(faculty);
       faculties.push(faculty.name);
     });
 
@@ -724,20 +487,18 @@ class StudentPageHandler {
    * Send request to api for students
    * by selected filters
    */
-  sendGetStudentsRequest() {
+  sendGetStudentsRequest(url) {
     $.ajax({
-      url: '/person/students',
+      url: url,
       type: 'get',
       contentType: 'application/json',
       dataType: 'json',
       success: (data) => {
-        this.students = JSON.parse(data);
+        this.students = data;
+        this.initStudentsTable();
+        this.$continueBtn.trigger('mouseover');
       }
     });
-
-    // this.students = json;
-    this.initStudentsTable();
-    this.$continueBtn.trigger('mouseover');
   }
 
   /**
@@ -752,4 +513,55 @@ class StudentPageHandler {
       dataType: 'json'
     });
   }
+
+    sendGetFacultyRequest() {
+        $.ajax({
+            url: '/filter/faculty',
+            type: 'get',
+            data: {},
+            async: false,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: (data) => {
+                data.forEach((facultyInfo) => {
+                    this.filters.faculty.push({
+                        name: facultyInfo.name,
+                        abbr: facultyInfo.abbr
+                    });
+                });
+            }
+        });
+    }
+
+    sendGetGroupRequest() {
+        $.ajax({
+            url: '/filter/group',
+            type: 'get',
+            data: {},
+            async: false,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: (data) => {
+                data.forEach((groupDTO) => {
+                    this.filters.group.push(this.studentHelper.getGroupNumber(groupDTO))
+                });
+            }
+        });
+    }
+
+    sendGetYearRequest() {
+        $.ajax({
+            url: '/filter/year',
+            type: 'get',
+            data: {},
+            async: false,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: (data) => {
+                this.filters.year = data;
+
+                this.init();
+            }
+        });
+    }
 }
