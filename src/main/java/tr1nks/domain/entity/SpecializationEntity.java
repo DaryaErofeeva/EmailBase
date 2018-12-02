@@ -5,7 +5,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "specialization")
-@SequenceGenerator(name = "specialization_seq", sequenceName = "specialization_id_seq", allocationSize = 1)
 public class SpecializationEntity extends MyEntity {
     @Basic
     @Column(name = "specialization_id", nullable = false, length = 3)

@@ -12,6 +12,7 @@ import tr1nks.service.domain.StudentService;
 import tr1nks.service.logic.CredentialGenerationService;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
@@ -47,12 +48,16 @@ public class StudentServiceImpl implements StudentService {
     @Resource
     private CredentialGenerationService credentialGenerationService;
 
+    @Resource
+    private EntityManager entityManager;
+
     @Override
     public void save(StudentEntity student) {
+        entityManager.clear();
         student.setGroupEntity(getOrSaveGroup(student.getGroupEntity()));
         if (!testEmail(student.getLogin()))
             student.setLogin(credentialGenerationService.createLogin(student.getSurname(), student.getName()));
-        studentRepository.save(student);
+        studentRepository.saveAndFlush(student);
     }
 
     @Override
@@ -73,7 +78,7 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentDTO> updateStudents(@NotNull List<StudentDTO> studentsDTO) {
         return studentEntitiesDtosConverter
                 .toDTO(studentEntitiesDtosConverter.toEntity(studentsDTO).stream()
-                        .map(studentEntity -> studentRepository.save(studentEntity)).collect(Collectors.toList()));
+                        .map(studentEntity -> studentRepository.saveAndFlush(studentEntity)).collect(Collectors.toList()));
     }
 
     @Override
@@ -107,7 +112,7 @@ public class StudentServiceImpl implements StudentService {
                 .getTopBySpecialityId(specialityEntity.getSpecialityId());
 
         return Optional.ofNullable(studentSpecialityEntity).isPresent() ? studentSpecialityEntity :
-                specialityRepository.save(specialityEntity);
+                specialityRepository.saveAndFlush(specialityEntity);
     }
 
     private SpecializationEntity getOrSaveSpecialization(SpecializationEntity specializationEntity) {
@@ -119,21 +124,21 @@ public class StudentServiceImpl implements StudentService {
                         specializationEntity.getSpecialityEntity().getSpecialityId());
 
         return Optional.ofNullable(studentSpecializationEntity).isPresent() ? studentSpecializationEntity :
-                specializationRepository.save(specializationEntity);
+                specializationRepository.saveAndFlush(specializationEntity);
     }
 
     private FacultyEntity getOrSaveFaculty(FacultyEntity facultyEntity) {
         FacultyEntity studentFacultyEntity = facultyRepository.getTopByFacultyId(facultyEntity.getFacultyId());
 
         return Optional.ofNullable(studentFacultyEntity).isPresent() ? studentFacultyEntity :
-                facultyRepository.save(facultyEntity);
+                facultyRepository.saveAndFlush(facultyEntity);
     }
 
     private StudyLevelEntity getOrSaveStudyLevel(StudyLevelEntity studyLevelEntity) {
         StudyLevelEntity studentStudyLevelEntity = studyLevelRepository.getTopByLevelId(studyLevelEntity.getLevelId());
 
         return Optional.ofNullable(studentStudyLevelEntity).isPresent() ? studentStudyLevelEntity :
-                studyLevelRepository.save(studyLevelEntity);
+                studyLevelRepository.saveAndFlush(studyLevelEntity);
     }
 
     private GroupEntity getOrSaveGroup(GroupEntity groupEntity) {
@@ -149,6 +154,6 @@ public class StudentServiceImpl implements StudentService {
                         groupEntity.getNum(), groupEntity.getYear());
 
         return Optional.ofNullable(studentGroupEntity).isPresent() ? studentGroupEntity :
-                groupRepository.save(groupEntity);
+                groupRepository.saveAndFlush(groupEntity);
     }
 }
