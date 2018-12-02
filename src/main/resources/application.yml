@@ -1,29 +1,13 @@
-app:
-  baselink: http://127.0.0.1:8080/
-db: # db properties
-  #  driver: com.mysql.cj.jdbc.Driver
-  driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/mail_managin_base?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true
-  username: root
-  password: root
-#hibernate properties
-hibernate:
-  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  show_sql: true
-  format_sql: true
-  hbm2ddl:
-    auto: update
-#    auto: create-drop
-
-#spring:
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: baseserverhneu@gmail.com
-#    password: mailserver327
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mail_managin_base?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true
+    username: root
+    password: root
+  liquibase:
+    change-log: classpath:/db.changelog/db.changelog-master.yaml
+    enabled: true
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
