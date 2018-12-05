@@ -15,7 +15,9 @@ public interface StudentService {
     void save(List<StudentDTO> students, HttpSession httpSession);
 
     @NotNull
-    List<StudentDTO> getStudents(String facultyName, Integer year);
+    List<StudentDTO> getStudents(String facultyName, String group, Integer year);
+
+    byte[] getArchive();
 
     boolean testEmail(String login);
 

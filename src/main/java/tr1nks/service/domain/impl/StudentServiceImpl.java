@@ -1,23 +1,28 @@
 package tr1nks.service.domain.impl;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
+import tr1nks.component.converter.impl.GroupEntityDTOConverter;
 import tr1nks.component.converter.impl.plural.StudentEntitiesDtosConverter;
 import tr1nks.constants.StudentField;
 import tr1nks.constants.TableColumnErrorMessages;
-import tr1nks.domain.dto.StudentDTO;
+import tr1nks.domain.dto.*;
 import tr1nks.domain.entity.*;
 import tr1nks.domain.repository.*;
 import tr1nks.service.domain.StudentService;
 import tr1nks.service.logic.CredentialGenerationService;
+import tr1nks.service.logic.FileGenerationService;
+import tr1nks.service.logic.ParseService;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static tr1nks.controller.person.PersonController.ERROR_STUDENT_SESSION_NAME;
 import static tr1nks.controller.person.PersonController.STUDENT_SESSION_NAME;
@@ -44,7 +49,13 @@ public class StudentServiceImpl implements StudentService {
     private SpecialityRepository specialityRepository;
 
     @Resource
+    private FileGenerationService fileGenerationService;
+
+    @Resource
     private StudentEntitiesDtosConverter studentEntitiesDtosConverter;
+
+    @Resource
+    private GroupEntityDTOConverter groupEntityDTOConverter;
 
     @Resource
     private CredentialGenerationService credentialGenerationService;
@@ -68,11 +79,22 @@ public class StudentServiceImpl implements StudentService {
         httpSession.removeAttribute(ERROR_STUDENT_SESSION_NAME);
     }
 
+    @Override
+    public byte[] getArchive() {
+        return fileGenerationService.createPDFArchiveBytes(Collections.singletonList(studentRepository.getFirstByCode("Co31234")));
+    }
+
     @NotNull
     @Override
-    public List<StudentDTO> getStudents(String facultyName, Integer year) {
+    public List<StudentDTO> getStudents(String facultyName, String group, Integer year) {
         return studentEntitiesDtosConverter.toDTO(studentRepository
-                .findAllByGroupEntityFacultyEntityNameOrGroupEntityYear(facultyName, year));
+                .findAllByGroupEntityFacultyEntityNameOrGroupEntityYearOrGroupEntity(facultyName, year, parseGroupEntity(group)));
+    }
+
+    private GroupEntity parseGroupEntity(String group) {
+        List<Integer> groupCipherList = Stream.of(group.split("\\.")).map(Integer::valueOf).collect(Collectors.toList());
+        return groupRepository.getTopByFacultyEntityFacultyIdAndSpecializationEntitySpecializationIdAndStudyLevelEntityLevelIdAndNumAndYear(
+                groupCipherList.get(1), groupCipherList.get(3), groupCipherList.get(0), groupCipherList.get(4), groupCipherList.get(5));
     }
 
     @NotNull

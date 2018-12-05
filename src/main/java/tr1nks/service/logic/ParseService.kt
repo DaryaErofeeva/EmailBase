@@ -1,6 +1,7 @@
 package tr1nks.service.logic
 
 import org.springframework.web.multipart.MultipartFile
+import tr1nks.domain.dto.GroupDTO
 import tr1nks.domain.dto.StudentDTO
 import java.nio.charset.Charset
 import javax.servlet.http.HttpSession

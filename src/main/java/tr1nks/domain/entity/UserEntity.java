@@ -8,26 +8,38 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user")
-public class UserEntity extends MyEntity {
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private long id;
+
     @Basic
     @Column(name = "email", length = 256, unique = true, nullable = false)
     private String email;
+
     @Basic
     @Column(name = "password", length = 60, nullable = false)
     private String password;
+
     @Basic
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
     @Basic
     @Column(name = "enabled", nullable = false, columnDefinition = "bit(1) default false")
     private boolean enabled;
+
     @Basic
     @Column(name = "name", length = 40, nullable = false)
     private String name;
+
     @Basic
     @Column(name = "surname", length = 50)
     private String surname;
+
     @Basic
     @Column(name = "uuid")
     private UUID userUUID;
@@ -45,6 +57,13 @@ public class UserEntity extends MyEntity {
     private UserEntity() {
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
