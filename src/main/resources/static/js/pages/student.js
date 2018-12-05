@@ -253,7 +253,7 @@ class StudentPageHandler {
     this.currentPage = 1;
 
     this.studentHelper.setStudents(this.students);
-    this.paginator = new Paginator(this.students.length, 1);
+    this.paginator = new Paginator(this.students.length);
 
     this.paginator.init();
   }

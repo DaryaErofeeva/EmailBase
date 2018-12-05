@@ -5,21 +5,30 @@ import java.util.List;
 
 @Entity
 @Table(name = "faculty")
-public class FacultyEntity extends MyEntity {
+public class FacultyEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private long id;
+
     @Basic
     @Column(name = "faculty_id", unique = true, nullable = false, length = 3)
     private int facultyId;
+
     @Basic
     @Column(name = "name", unique = true, nullable = false, length = 50)
     private String name;
+
     @Basic
     @Column(name = "abbr", unique = true, nullable = false, length = 5)
     private String abbr;
+
     @OneToMany(mappedBy = "facultyEntity")
     private List<GroupEntity> groupEntities;
 
     public FacultyEntity(long id, int facultyId, String name, String abbr) {
-        setId(id);
+        this.id = id;
         this.facultyId = facultyId;
         this.name = name;
         this.abbr = abbr;
@@ -28,6 +37,13 @@ public class FacultyEntity extends MyEntity {
     public FacultyEntity() {
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getFacultyId() {
         return facultyId;

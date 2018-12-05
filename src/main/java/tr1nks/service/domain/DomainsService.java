@@ -3,11 +3,11 @@ package tr1nks.service.domain;
 import tr1nks.domain.entity.DomainsEntity;
 
 public interface DomainsService {
-    String getEmailDomen();
+    String getEmailDomain();
 
-    String getImagineDomen();
+    String getImagineDomain();
 
-    String getOfficeDomen();
+    String getOfficeDomain();
 
     DomainsEntity save(DomainsEntity domainsEntity);
 }

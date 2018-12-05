@@ -3,7 +3,6 @@ package tr1nks.service.logic.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import tr1nks.domain.entity.PersonEntity;
 import tr1nks.domain.entity.StudentEntity;
 import tr1nks.service.domain.DomainsService;
 import tr1nks.service.logic.FileGenerationService;
@@ -37,23 +36,21 @@ public class FileGenerationServiceImpl implements FileGenerationService {
     private PdfFromHtmlCreationService pdfFromHtmlCreationService;
 
     @Override
-    public byte[] createPDFArchiveBytes(List<PersonEntity> persons) {
+    public byte[] createPDFArchiveBytes(List<StudentEntity> studentEntities) {
         byte[] arr = null;
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             StringBuilder builder = new StringBuilder();
-            for (PersonEntity person : persons) {
-                if (person instanceof StudentEntity) {
-                    builder.append(((StudentEntity) person).getGroupEntity().getFacultyEntity().getAbbr())
-                            .append(SLH).append(((StudentEntity) person).getGroupEntity().getCipher().replace(".", "_"))
-                            .append(SLH);
-                }
-                builder.append(person.getSurname()).append("_").append(person.getName()).append(".pdf");
+            for (StudentEntity student : studentEntities) {
+                builder.append((student).getGroupEntity().getFacultyEntity().getAbbr())
+                        .append(SLH).append((student).getGroupEntity().getCipher().replace(".", "_"))
+                        .append(SLH);
+                builder.append(student.getSurname()).append("_").append(student.getName()).append(".pdf");
                 zipOutputStream.putNextEntry(new ZipEntry(builder.toString()));
-                zipOutputStream.write(createPdfBytes(person));
+                zipOutputStream.write(createPdfBytes(student));
                 zipOutputStream.closeEntry();
                 builder.replace(0, builder.length(), "");
             }
-            writeCsvToArchive(persons, zipOutputStream);
+            writeCsvToArchive(studentEntities, zipOutputStream);
             zipOutputStream.flush();
             zipOutputStream.close();
             arr = byteArrayOutputStream.toByteArray();
@@ -63,19 +60,12 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         return arr;
     }
 
-    private void writeCsvToArchive(List<PersonEntity> persons, ZipOutputStream zipOutputStream) {
+    private void writeCsvToArchive(List<StudentEntity> studentEntities, ZipOutputStream zipOutputStream) {
         HashMap<String, StringBuilder> map = new HashMap<>();
-        for (PersonEntity person : persons) {
-            String name = null;
-            if (person instanceof StudentEntity) {
-                StudentEntity s = (StudentEntity) person;
-                name = s.getGroupEntity().getFacultyEntity().getAbbr() + SLH + s.getGroupEntity().getCipher().replace(".", "_") + ".csv";
-            }//todo
-            if (null != name && map.containsKey(name)) {
-                map.get(name).append(createEmailCsvString(person));
-            } else {
-                map.put(name, new StringBuilder(createEmailCsvString(person)));
-            }
+        for (StudentEntity student : studentEntities) {
+            String name = student.getGroupEntity().getFacultyEntity().getAbbr() + SLH + student.getGroupEntity()
+                    .getCipher().replace(".", "_") + ".csv";
+            map.put(name, new StringBuilder(createEmailCsvString(student)));
         }
         for (String name : map.keySet()) {
             try {
@@ -88,27 +78,28 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         }
     }
 
-    private String createEmailCsvString(PersonEntity person) {
-        return person.getName() + ',' + person.getSurname() + ',' + person.getLogin() + '@' + domainsService.getEmailDomen() + ',' + person.getInitPassword() + EMAIL_CSV_TAIL + "\n";
+    private String createEmailCsvString(StudentEntity studentEntity) {
+        return studentEntity.getName() + ',' + studentEntity.getSurname() + ',' + studentEntity.getLogin() + '@' +
+                domainsService.getEmailDomain() + ',' + studentEntity.getInitPassword() + EMAIL_CSV_TAIL + "\n";
     }
 
-@Override
-    public byte[] createPdfBytes(PersonEntity person) {
+    @Override
+    public byte[] createPdfBytes(StudentEntity studentEntity) {
         HashMap<Pattern, String> replaceMap = new HashMap<>();
-        replaceMap.put(PDQ_EMAIL_ADDRESS_PATTERN, person.getLogin() + '@' + domainsService.getEmailDomen());
-        replaceMap.put(PDF_EMAIL_PASSWORD_PATTERN, person.getInitPassword());
-        if (person.isImagine() && person.isOffice()) {
+        replaceMap.put(PDQ_EMAIL_ADDRESS_PATTERN, studentEntity.getLogin() + '@' + domainsService.getEmailDomain());
+        replaceMap.put(PDF_EMAIL_PASSWORD_PATTERN, studentEntity.getInitPassword());
+        if (studentEntity.isImagine() && studentEntity.isOffice()) {
             if (null == pdfDataFull) {
                 pdfDataFull = pdfFromHtmlCreationService.loadHtmlCssData("pdfSample_Full.html");
             }
             return pdfFromHtmlCreationService.create(pdfDataFull, replaceMap);
         } else {
-            if (person.isImagine()) {
+            if (studentEntity.isImagine()) {
                 if (null == pdfDataImagine) {
                     pdfDataImagine = pdfFromHtmlCreationService.loadHtmlCssData("pdfSample_Imagine.html");
                 }
                 return pdfFromHtmlCreationService.create(pdfDataImagine, replaceMap);
-            } else if (person.isOffice()) {
+            } else if (studentEntity.isOffice()) {
                 if (null == pdfDataOffice) {
                     pdfDataOffice = pdfFromHtmlCreationService.loadHtmlCssData("pdfSample_Office.html");
                 }
@@ -122,18 +113,18 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         }
     }
 
-    public byte[][] createFullPersonsCsvs(List<PersonEntity> persons) {
+    public byte[][] createFullPersonsCsvs(List<StudentEntity> studentEntities) {
         byte[][] arr = new byte[3][];
         StringBuilder builderEmail = new StringBuilder();
         StringBuilder builderImagine = new StringBuilder();
         StringBuilder builderOffice = new StringBuilder();
-        for (PersonEntity person : persons) {
-            builderEmail.append(createEmailCsvString(person));
-            if (person.isImagine()) {
-                builderImagine.append(createImagineCsvString(person));
+        for (StudentEntity student : studentEntities) {
+            builderEmail.append(createEmailCsvString(student));
+            if (student.isImagine()) {
+                builderImagine.append(createImagineCsvString(student));
             }
-            if (person.isOffice()) {
-                builderOffice.append(createOfficeCsvString(person));
+            if (student.isOffice()) {
+                builderOffice.append(createOfficeCsvString(student));
             }
         }
         try {
@@ -150,11 +141,13 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         return arr;
     }
 
-    private String createImagineCsvString(PersonEntity person) {
-        return person.getLogin() + '@' + domainsService.getImagineDomen() + "\n";
+    private String createImagineCsvString(StudentEntity studentEntity) {
+        return studentEntity.getLogin() + '@' + domainsService.getImagineDomain() + "\n";
     }
 
-    private String createOfficeCsvString(PersonEntity person) {
-        return person.getLogin() + '@' + domainsService.getImagineDomen() + ',' + person.getName() + ',' + person.getSurname() + ',' + person.getName() + ',' + person.getSurname() + OFFICE_CSV_TAIL + "\n";
+    private String createOfficeCsvString(StudentEntity studentEntity) {
+        return studentEntity.getLogin() + '@' + domainsService.getImagineDomain() + ',' + studentEntity.getName() + ',' +
+                studentEntity.getSurname() + ',' + studentEntity.getName() + ',' + studentEntity.getSurname() +
+                OFFICE_CSV_TAIL + "\n";
     }
 }

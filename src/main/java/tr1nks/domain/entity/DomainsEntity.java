@@ -1,19 +1,24 @@
 package tr1nks.domain.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "domains")
-public class DomainsEntity extends MyEntity {
+public class DomainsEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private long id;
+
     @Basic
     @Column(name = "email", nullable = false, length = 50)
     private String emailDomen;
+
     @Basic
     @Column(name = "imagine", nullable = false, length = 50)
     private String imagineDomen;
+
     @Basic
     @Column(name = "office", nullable = false, length = 50)
     private String officeDomen;
@@ -27,6 +32,13 @@ public class DomainsEntity extends MyEntity {
     public DomainsEntity() {
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getEmailDomen() {
         return emailDomen;

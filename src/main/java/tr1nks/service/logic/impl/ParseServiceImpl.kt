@@ -30,7 +30,7 @@ class ParseServiceImpl @Autowired constructor(
                                 .use { it.map { parseStudentDTO(csvRecord = it) } }
                     }, httpSession = httpSession)
 
-    private fun parseStudentDTO(csvRecord: CSVRecord): StudentDTO = StudentDTO(
+    private fun parseStudentDTO(csvRecord: CSVRecord) = StudentDTO(
             csvRecord.get(FileColumn.SURNAME),
             csvRecord.get(FileColumn.NAME),
             csvRecord.get(FileColumn.PATRONYMIC),
@@ -41,15 +41,13 @@ class ParseServiceImpl @Autowired constructor(
             parseTrueFlag(FileColumn.BUDGET)
     )
 
-    private fun parseGroupDto(groupCipherArray: List<Int>): GroupDTO {
-        return GroupDTO(
-                StudyLevelDTO(groupCipherArray[0]),
-                FacultyDTO(groupCipherArray[1]),
-                SpecializationDTO(groupCipherArray[3], SpecialityDTO(groupCipherArray[2])),
-                groupCipherArray[4],
-                groupCipherArray[5]
-        )
-    }
+    private fun parseGroupDto(groupCipherArray: List<Int>) = GroupDTO(
+            StudyLevelDTO(groupCipherArray[0]),
+            FacultyDTO(groupCipherArray[1]),
+            SpecializationDTO(groupCipherArray[3], SpecialityDTO(groupCipherArray[2])),
+            groupCipherArray[4],
+            groupCipherArray[5]
+    )
 
     private fun parseTrueFlag(s: String): Boolean {
         return s == "true" || s == "да" || s == "+" || s == "yes" || s == "1"
@@ -57,7 +55,7 @@ class ParseServiceImpl @Autowired constructor(
 
     override fun checkStudents(studentDTOS: List<StudentDTO>, httpSession: HttpSession): Boolean {
         val validStudentDtos = httpSession.getAttribute(PersonController.STUDENT_SESSION_NAME) as? MutableList<StudentDTO>
-                        ?: mutableListOf()
+                ?: mutableListOf()
         val errorStudentDtos = mutableListOf<StudentDTO>()
 
         validStudentDtos.addAll(studentDTOS.filter { studentService.testStudent(it) })

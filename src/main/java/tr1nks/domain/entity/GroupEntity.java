@@ -9,30 +9,41 @@ import java.util.List;
  */
 @Entity
 @Table(name = "academ_group")
-public class GroupEntity extends MyEntity {
+public class GroupEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private long id;
+
     @Basic
     @ManyToOne
     @JoinColumn(name = "level_id", referencedColumnName = "id", nullable = false)
     private StudyLevelEntity studyLevelEntity;
+
     @Basic
     @ManyToOne
     @JoinColumn(name = "faculty_id", referencedColumnName = "id", nullable = false)
     private FacultyEntity facultyEntity;
+
     @Basic
     @ManyToOne
     @JoinColumn(name = "specialization_id", referencedColumnName = "id", nullable = false)
     private SpecializationEntity specializationEntity;
+
     @Basic
     @Column(name = "year", nullable = false, length = 3)
     private int year;
+
     @Basic
     @Column(name = "num", nullable = false, length = 3)
     private int num;
+
     @OneToMany(mappedBy = "groupEntity")
     private List<StudentEntity> students;
 
     public GroupEntity(long id, StudyLevelEntity studyLevelEntity, FacultyEntity facultyEntity, SpecializationEntity specializationEntity, Integer year, Integer num) {
-        setId(id);
+        this.id = id;
         this.studyLevelEntity = studyLevelEntity;
         this.facultyEntity = facultyEntity;
         this.specializationEntity = specializationEntity;
@@ -41,6 +52,14 @@ public class GroupEntity extends MyEntity {
     }
 
     public GroupEntity() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public StudyLevelEntity getStudyLevelEntity() {
