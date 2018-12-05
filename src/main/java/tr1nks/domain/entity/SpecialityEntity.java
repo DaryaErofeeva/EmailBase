@@ -5,23 +5,39 @@ import java.util.List;
 
 @Entity
 @Table(name = "speciality")
-public class SpecialityEntity extends MyEntity {
+public class SpecialityEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private long id;
+
     @Basic
     @Column(name = "speciality_id", nullable = false, unique = true, length = 3)
     private int specialityId;
+
     @Basic
     @Column(name = "name", nullable = false, length = 90)
     private String name;
+
     @OneToMany(mappedBy = "specialityEntity")
     private List<SpecializationEntity> specializationEntities;
 
     public SpecialityEntity(long id, int specialityId, String name) {
-        setId(id);
+        this.id = id;
         this.specialityId = specialityId;
         this.name = name;
     }
 
     public SpecialityEntity() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getSpecialityId() {

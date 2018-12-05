@@ -1,3 +1,4 @@
+INSERT INTO domains VALUES (1, 'hneu.net', 'hneu.net', 'hneu.net');
 
 INSERT INTO study_level VALUES (6, 6, 'Бакалавр');
 INSERT INTO study_level VALUES (7, 7, '');

@@ -1,14 +1,14 @@
 package tr1nks.service.logic;
 
 
-import tr1nks.domain.entity.PersonEntity;
+import tr1nks.domain.entity.StudentEntity;
 
 import java.util.List;
 
 public interface FileGenerationService {
     String PDF_RESOURCE_LOCATION = "/static/pdf/";
 
-    byte[] createPDFArchiveBytes(List<PersonEntity> persons);
+    byte[] createPDFArchiveBytes(List<StudentEntity> studentEntities);
 
-    byte[] createPdfBytes(PersonEntity person);
+    byte[] createPdfBytes(StudentEntity studentEntity);
 }

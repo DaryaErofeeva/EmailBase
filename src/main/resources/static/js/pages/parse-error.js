@@ -19,7 +19,7 @@ class StudentHelper {
 class Paginator {
     constructor(
         itemsCount,
-        resPerPage = 1,
+        resPerPage = 50,
         currentPage = 1,
         paginatorClass = 'pagination',
         pageItemClass = 'page-item'
