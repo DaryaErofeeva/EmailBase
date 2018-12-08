@@ -21,7 +21,9 @@
     <table class="table table-responsive-xs table-hover border">
         <thead class="bg-dark text-white">
         <tr class="text-center">
-            <th scope="col">Выбор</th>
+            <th scope="col">
+                <span style="padding: 0 0.25rem 0 0,25rem;" data-field="selected" data-state="true" class="btn btn-success select-all"><b>Все</b></span>
+            </th>
             <th scope="col">Фамилия</th>
             <th scope="col">Имя</th>
             <th scope="col">Отчество</th>
@@ -39,18 +41,17 @@
 
     <div class="container">
         <div class="row">
+            <button type="button" class="col m-1 btn btn-primary send-updated-data"><b>Отправить обновленные данные</b></button>
+        </div>
+        <div class="row">
             <button type="button" data-field="budget" class="set-btn col m-1 btn btn-success"><b>Установить Бюджет</b></button>
             <button type="button" data-field="imagine" class="set-btn col m-1 btn btn-success"><b>Установить Imagine</b></button>
             <button type="button" data-field="office" class="set-btn col m-1 btn btn-success"><b>Установить Office</b></button>
         </div>
         <div class="row">
-            <button type="button" data-field="budget" class="unset-btn col m-1 btn btn-danger"><b>Снять Бюджет</b></button>
-            <button type="button" data-field="imagine" class="unset-btn col m-1 btn btn-danger"><b>Снять Imagine</b></button>
-            <button type="button" data-field="office" class="unset-btn col m-1 btn btn-danger"><b>Снять Office</b></button>
-        </div>
-        <div class="row">
-            <button type="button" data-field="selected" data-state="true" class="col m-1 btn btn-primary select-all"><b>Выбрать всех</b></button>
-            <button type="button" class="col m-1 btn btn-primary send-updated-data"><b>Отправить обновленные данные</b></button>
+            <button type="button" data-field="budget" class="unset-btn col m-1 btn btn-warning"><b>Снять Бюджет</b></button>
+            <button type="button" data-field="imagine" class="unset-btn col m-1 btn btn-warning"><b>Снять Imagine</b></button>
+            <button type="button" data-field="office" class="unset-btn col m-1 btn btn-warning"><b>Снять Office</b></button>
         </div>
     </div>
 </div>
