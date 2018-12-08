@@ -16,13 +16,14 @@ class UploadPageHandler {
 
     fileValidationCallBack() {
         const $msgBox = $('.js-msg-box');
+        const csvTypes = ["text/comma-separated-values", "text/csv", "application/csv", "application/vnd.ms-excel"];
         const files = this.$fileInput[0].files;
         let isValid = false;
         let file = '';
 
         if (files.length) {
             file = this.$fileInput[0].files[0];
-            isValid = file.size !== 0 && file.type === 'text/csv';
+            isValid = file.size !== 0 && $.inArray(file.type, csvTypes);
         }
 
         this.$submitBtn.prop('disabled', !isValid);
