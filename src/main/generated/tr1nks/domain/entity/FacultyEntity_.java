@@ -7,8 +7,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(FacultyEntity.class)
-public abstract class FacultyEntity_ extends tr1nks.domain.entity.MyEntity_ {
+public abstract class FacultyEntity_ {
 
+	public static volatile SingularAttribute<FacultyEntity, Long> id;
 	public static volatile SingularAttribute<FacultyEntity, Integer> facultyId;
 	public static volatile SingularAttribute<FacultyEntity, String> name;
 	public static volatile SingularAttribute<FacultyEntity, String> abbr;

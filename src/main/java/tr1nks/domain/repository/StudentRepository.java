@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import tr1nks.domain.entity.*;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Path;
+import javax.persistence.criteria.*;
 import java.util.List;
+import java.util.Objects;
 
 public interface StudentRepository extends JpaRepository<StudentEntity, Long>, JpaSpecificationExecutor<StudentEntity> {
 
@@ -18,7 +18,19 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long>, J
 
     StudentEntity getFirstByCode(String code);
 
-    List<StudentEntity> findAllByGroupEntityFacultyEntityNameOrGroupEntityYearOrGroupEntity(String facultyName, Integer year, GroupEntity groupEntity);
+    List<StudentEntity> findAllByGroupEntityFacultyEntityNameAndGroupEntityYearAndGroupEntity(String facultyName, int year, GroupEntity groupEntity);
+
+    List<StudentEntity> findAllByGroupEntityFacultyEntityNameAndGroupEntityYear(String facultyName, int year);
+
+    List<StudentEntity> findAllByGroupEntityFacultyEntityNameAndGroupEntity(String facultyName, GroupEntity groupEntity);
+
+    List<StudentEntity> findAllByGroupEntityYearAndGroupEntity(int year, GroupEntity groupEntity);
+
+    List<StudentEntity> findAllByGroupEntityFacultyEntityName(String facultyName);
+
+    List<StudentEntity> findAllByGroupEntityYear(int year);
+
+    List<StudentEntity> findAllByGroupEntity(GroupEntity groupEntity);
 
     class StudentSpecifications {
         public static Specification<StudentEntity> hasIdIn(List<Long> ids) {
@@ -48,6 +60,28 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long>, J
                 final Path<Integer> year = studentGroupJoin.get(GroupEntity_.year);
                 return year.in(years);
             });
+        }
+
+        public static Specification<StudentEntity> getByFacultyName(String facultyName) {
+            return Specification.where((Specification<StudentEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+                Join<StudentEntity, GroupEntity> studentGroupJoin = root.join(StudentEntity_.groupEntity);
+                Join<GroupEntity, FacultyEntity> groupFacultyJoin = studentGroupJoin.join(GroupEntity_.facultyEntity);
+                return root.in(criteriaQuery.where(criteriaBuilder.equal(groupFacultyJoin.get(FacultyEntity_.name), facultyName)));
+            });
+        }
+
+        public static Specification<StudentEntity> getByGroupEntity(GroupEntity groupEntity) {
+            return Specification.where((Specification<StudentEntity>) (root, criteriaQuery, criteriaBuilder) ->
+                    root.in(criteriaQuery.where(criteriaBuilder.equal(root.get(StudentEntity_.groupEntity), groupEntity))));
+        }
+
+        public static Specification<StudentEntity> appendSpecification(Specification<StudentEntity> base, Specification<StudentEntity> appended) {
+            if (Objects.isNull(base)) {
+                return appended;
+            } else {
+                base.and(appended);
+                return base;
+            }
         }
     }
 }
