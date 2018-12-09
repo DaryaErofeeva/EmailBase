@@ -8,8 +8,9 @@ import tr1nks.constants.UserRole;
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(UserEntity.class)
-public abstract class UserEntity_ extends tr1nks.domain.entity.MyEntity_ {
+public abstract class UserEntity_ {
 
+	public static volatile SingularAttribute<UserEntity, Long> id;
 	public static volatile SingularAttribute<UserEntity, String> password;
 	public static volatile SingularAttribute<UserEntity, UserRole> role;
 	public static volatile SingularAttribute<UserEntity, String> surname;

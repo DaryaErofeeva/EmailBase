@@ -1,23 +1,23 @@
 package tr1nks.service.domain.impl;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import tr1nks.component.converter.impl.GroupEntityDTOConverter;
 import tr1nks.component.converter.impl.plural.StudentEntitiesDtosConverter;
 import tr1nks.constants.StudentField;
 import tr1nks.constants.TableColumnErrorMessages;
-import tr1nks.domain.dto.*;
+import tr1nks.domain.dto.StudentDTO;
 import tr1nks.domain.entity.*;
 import tr1nks.domain.repository.*;
 import tr1nks.service.domain.StudentService;
 import tr1nks.service.logic.CredentialGenerationService;
 import tr1nks.service.logic.FileGenerationService;
-import tr1nks.service.logic.ParseService;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -87,14 +87,41 @@ public class StudentServiceImpl implements StudentService {
     @NotNull
     @Override
     public List<StudentDTO> getStudents(String facultyName, String group, Integer year) {
-        return studentEntitiesDtosConverter.toDTO(studentRepository
-                .findAllByGroupEntityFacultyEntityNameOrGroupEntityYearOrGroupEntity(facultyName, year, parseGroupEntity(group)));
+        List<StudentEntity> studentEntities = new ArrayList<>();
+        if (facultyName != null && !facultyName.isEmpty()) {
+            if (group != null && !group.isEmpty()) {
+                if (year != null) {
+                    studentEntities.addAll(studentRepository
+                            .findAllByGroupEntityFacultyEntityNameAndGroupEntityYearAndGroupEntity(facultyName, year, parseGroupEntity(group)));
+                } else {
+                    studentEntities.addAll(studentRepository
+                            .findAllByGroupEntityFacultyEntityNameAndGroupEntity(facultyName, parseGroupEntity(group)));
+                }
+            } else {
+                if (year != null) {
+                    studentEntities.addAll(studentRepository.findAllByGroupEntityFacultyEntityNameAndGroupEntityYear(facultyName, year));
+                } else {
+                    studentEntities.addAll(studentRepository.findAllByGroupEntityFacultyEntityName(facultyName));
+                }
+            }
+        } else {
+            if (group != null && !group.isEmpty()) {
+                if (year != null) {
+                    studentEntities.addAll(studentRepository.findAllByGroupEntityYearAndGroupEntity(year, parseGroupEntity(group)));
+                } else {
+                    studentEntities.addAll(studentRepository.findAllByGroupEntity(parseGroupEntity(group)));
+                }
+            } else {
+                studentEntities.addAll(studentRepository.findAllByGroupEntityYear(year));
+            }
+        }
+        return studentEntitiesDtosConverter.toDTO(studentEntities);
     }
 
     private GroupEntity parseGroupEntity(String group) {
         List<Integer> groupCipherList = Stream.of(group.split("\\.")).map(Integer::valueOf).collect(Collectors.toList());
-        return groupRepository.getTopByFacultyEntityFacultyIdAndSpecializationEntitySpecializationIdAndStudyLevelEntityLevelIdAndNumAndYear(
-                groupCipherList.get(1), groupCipherList.get(3), groupCipherList.get(0), groupCipherList.get(4), groupCipherList.get(5));
+        return groupRepository.getTopByStudyLevelEntityLevelIdAndFacultyEntityFacultyIdAndSpecializationEntitySpecialityEntitySpecialityIdAndSpecializationEntitySpecializationIdAndYearAndNum(
+                groupCipherList.get(0), groupCipherList.get(1), groupCipherList.get(3), groupCipherList.get(2), groupCipherList.get(4), groupCipherList.get(5));
     }
 
     @NotNull

@@ -14,8 +14,8 @@ public interface GroupRepository extends JpaRepository<GroupEntity, Long>, JpaSp
     GroupEntity getTopByFacultyEntityIdAndSpecializationEntityIdAndStudyLevelEntityIdAndNumAndYear(
             long facultyEntityId, long specializationEntityId, long studyLevelEntityId, int num, int year);
 
-    GroupEntity getTopByFacultyEntityFacultyIdAndSpecializationEntitySpecializationIdAndStudyLevelEntityLevelIdAndNumAndYear(
-            int facultyId, int specializationId, int levelId, int num, int year);
+    GroupEntity getTopByStudyLevelEntityLevelIdAndFacultyEntityFacultyIdAndSpecializationEntitySpecialityEntitySpecialityIdAndSpecializationEntitySpecializationIdAndYearAndNum(
+            int levelId, int facultyId, int specialityId, int specializationId, int year, int num);
 
     class GroupSpecifications {                                //8.04.122.10.18.2
         public static Specification<GroupEntity> hasStudyLevelId(int studyLevelId) {
