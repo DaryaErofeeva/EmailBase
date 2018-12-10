@@ -174,6 +174,7 @@ class StudentPageHandler {
     this.$filtersApplyBtn = $('.filters-apply');
     this.$selectAllBtn = $('.select-all');
     this.$continueBtn = $('.send-updated-data');
+    this.$makeArchiveBtn = $('.send-make-archive');
     this.$setBtns= $('.set-btn');
     this.$unsetBtns = $('.unset-btn');
   }
@@ -191,11 +192,19 @@ class StudentPageHandler {
     });
 
     this.$continueBtn.unbind('click').on('click', () => {
-      this.sendPostDataRequest();
+      this.sendPostDataRequest('/person/student');
+    });
+
+    this.$makeArchiveBtn.unbind('click').on('click', () => {
+      this.sendPostDataRequest('/person/zip');
     });
 
     this.$continueBtn.unbind('mouseover').on('mouseover', () => {
       this.$continueBtn.prop('disabled', !this.students);
+    });
+
+    this.$makeArchiveBtn.unbind('mouseover').on('mouseover', () => {
+      this.$makeArchiveBtn.prop('disabled', !this.students);
     });
 
     this.$setBtns.unbind('click').on('click', (e) => {
@@ -516,9 +525,9 @@ class StudentPageHandler {
   /**
    * Send request to api with handled students
    */
-  sendPostDataRequest() {
+  sendPostDataRequest(url) {
     $.ajax({
-      url: '/person/student',
+      url: url,
       type: 'post',
       data: JSON.stringify(this.students),
       contentType: 'application/json',

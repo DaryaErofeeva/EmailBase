@@ -12,6 +12,11 @@ class UploadPageHandler {
     initListeners() {
         this.$fileInput.on('change', () => this.fileValidationCallBack());
         this.$submitBtn.on('mouseover', () => this.fileValidationCallBack());
+
+      $('input[type="file"]').change(function(e){
+        const fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+      });
     }
 
     fileValidationCallBack() {
@@ -23,7 +28,7 @@ class UploadPageHandler {
 
         if (files.length) {
             file = this.$fileInput[0].files[0];
-            isValid = file.size !== 0 && $.inArray(file.type, csvTypes);
+            isValid = file.size !== 0 && csvTypes.indexOf(file.type) > -1;
         }
 
         this.$submitBtn.prop('disabled', !isValid);
