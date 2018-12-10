@@ -16,6 +16,7 @@ import tr1nks.controller.filter.FilterController;
 import tr1nks.controller.parse.ParseController;
 import tr1nks.controller.person.PersonController;
 import tr1nks.constants.UserRole;
+import tr1nks.controller.person.StudentController;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -52,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity security) throws Exception {
         security.authorizeRequests()
                 .antMatchers(PersonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
-                .antMatchers(PersonController.STUDENT_VIEW_NAME + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
+                .antMatchers(PersonController.STUDENT_VIEW_URL).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(DomainController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN))
                 .antMatchers(ParseController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(CommonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
@@ -60,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(Controller.LOGIN_URL + "/**").permitAll()
                 .and().formLogin()
                 .loginPage(Controller.LOGIN_URL)
-                .defaultSuccessUrl(CommonController.MAIN_PAGE_URL, false)
+                .defaultSuccessUrl(StudentController.STUDENT_VIEW_URL, false)
                 .failureUrl(Controller.LOGIN_URL + "?error=true")
                 .and().logout()
                 .logoutUrl(Controller.LOGOUT_URL).logoutSuccessUrl(Controller.LOGIN_URL + "?logout")
