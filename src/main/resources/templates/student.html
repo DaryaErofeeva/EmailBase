@@ -22,7 +22,7 @@
         <thead class="bg-dark text-white">
         <tr class="text-center">
             <th scope="col">
-                <span style="padding: 0 0.25rem 0 0,25rem;" data-field="selected" data-state="true" class="btn btn-success select-all"><b>Все</b></span>
+                <span style="cursor: pointer;" data-field="selected" data-state="true" class="p-1 select-all"><b><i class="fas fa-check"></i></b></span>
             </th>
             <th scope="col">Фамилия</th>
             <th scope="col">Имя</th>
@@ -41,7 +41,8 @@
 
     <div class="container">
         <div class="row">
-            <button type="button" class="col m-1 btn btn-primary send-updated-data"><b>Отправить обновленные данные</b></button>
+            <button type="button" disabled="disabled" class="col m-1 btn btn-primary send-updated-data"><b>Отправить обновленные данные</b></button>
+            <button type="button" disabled="disabled" class="col m-1 btn btn-danger send-make-archive"><b>Сформировать архив</b></button>
         </div>
         <div class="row">
             <button type="button" data-field="budget" class="set-btn col m-1 btn btn-success"><b>Установить Бюджет</b></button>
