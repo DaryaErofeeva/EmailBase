@@ -31,9 +31,11 @@ class FileParseController @Autowired constructor(
 
     @ResponseBody
     @PostMapping(value = ["parse/error"])
-    fun postCorrectedData(httpSession: HttpSession, @RequestBody studentDTOS: List<StudentDTO>) =
+    fun postCorrectedData(httpSession: HttpSession, @RequestBody studentDTOS: List<StudentDTO>): ModelAndView =
             if (parseService.checkStudents(studentDTOS, httpSession)) {
                 studentService.save(httpSession.getAttribute(STUDENT_SESSION_NAME) as List<StudentDTO>, httpSession)
                 ModelAndView("redirect:/$STUDENT_VIEW_NAME")
-            } else ModelAndView("redirect:/$ERROR_VIEW_NAME")
+            } else {
+                ModelAndView("redirect:/$ERROR_VIEW_NAME")
+            }
 }
