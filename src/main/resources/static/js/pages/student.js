@@ -242,6 +242,11 @@ class StudentPageHandler {
    */
   initStudentsTable() {
     this.initStudentsTableHelpers();
+
+    this.students.forEach((item, index) => {
+      this.studentHelper.setField(index, 'selected', false);
+    });
+
     this.renderTableElements(this.currentPage);
     this.initTableListeners();
   }
@@ -315,6 +320,13 @@ class StudentPageHandler {
     const $button = $(e.currentTarget);
     const fieldType = $button.data('field');
     const selectedStudents = this.getStudentsRowsByDataParam(`[data-field="selected"]`);
+
+    this.students.forEach((student, index) => {
+      if (student.selected) {
+        student[fieldType] = state;
+        this.students[index] = student;
+      }
+    });
 
     selectedStudents.forEach(($studentRow) => {
       this.changeCheckBoxState($studentRow, fieldType, state);
@@ -417,7 +429,7 @@ class StudentPageHandler {
       if (index >= fromTo.from && index <= fromTo.to)
         html += `
           <tr data-id="${index}" class="${this.CLASS.STUDENT_ROW}">
-              ${this.renderTableCell(this.INPUT_TYPES.CHECKBOX, this.CLASS.CHECKBOX_CELL, 'selected', false)}
+              ${this.renderTableCell(this.INPUT_TYPES.CHECKBOX, this.CLASS.CHECKBOX_CELL, 'selected', student.selected)}
               ${this.renderTableCell(this.INPUT_TYPES.TEXT, this.CLASS.TEXT_CELL, 'surname', student.surname)}
               ${this.renderTableCell(this.INPUT_TYPES.TEXT, this.CLASS.TEXT_CELL, 'name', student.name)}
               ${this.renderTableCell(this.INPUT_TYPES.TEXT, this.CLASS.TEXT_CELL, 'patronymic', student.patronymic)}
