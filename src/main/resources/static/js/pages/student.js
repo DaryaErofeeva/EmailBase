@@ -188,7 +188,9 @@ class StudentPageHandler {
     });
 
     this.$selectAllBtn.unbind('click').on('click', (e) => {
-      this.toggleSelectedCheckboxes(e);
+      if (this.students) {
+        this.toggleSelectedCheckboxes(e);
+      }
     });
 
     this.$continueBtn.unbind('click').on('click', () => {
@@ -222,14 +224,19 @@ class StudentPageHandler {
   initTableListeners() {
     $('.page-wrapper').unbind('click').on('click', `.${this.CLASS.CHECKBOX_CELL}`, (e) => {
       this.handleInputType(this.INPUT_TYPES.CHECKBOX, e);
+      if ($(e.currentTarget).data('field') !== 'selected') {
+        this.$continueBtn.trigger('mouseover');
+      }
     });
 
     $('.page-wrapper').unbind('change').on('change', `.${this.CLASS.TEXT_CELL}`, (e) => {
       this.handleInputType(this.INPUT_TYPES.TEXT, e);
+      this.$continueBtn.trigger('mouseover');
     });
 
     $('.page-wrapper').on('change', `.${this.CLASS.SELECT_CELL}`, (e) => {
       this.handleInputType(this.INPUT_TYPES.SELECT, e);
+      this.$continueBtn.trigger('mouseover');
     });
 
     $(`.page-link`).unbind('change').on('click', (e) => {
@@ -403,7 +410,10 @@ class StudentPageHandler {
     const fieldType = $button.data('field');
     const studentsRows = this.getStudentsRowsByDataParam();
 
+    $button.toggleClass('text-success', state);
+
     studentsRows.forEach(($studentRow) => {
+      this.students[$studentRow.data('id')].selected = state;
       this.changeCheckBoxState($studentRow, fieldType, state);
     });
 
@@ -516,8 +526,9 @@ class StudentPageHandler {
       dataType: 'json',
       success: (data) => {
         this.students = data;
+        this.originStudents = data;
         this.initStudentsTable();
-        this.$continueBtn.trigger('mouseover');
+        this.$makeArchiveBtn.trigger('mouseover');
       }
     });
   }
