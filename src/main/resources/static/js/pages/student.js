@@ -339,6 +339,7 @@ class StudentPageHandler {
 
     this.students.forEach((student, index) => {
       if (student.selected) {
+        this.$continueBtn.trigger('mouseover');
         student[fieldType] = state;
         this.students[index] = student;
       }
@@ -514,6 +515,17 @@ class StudentPageHandler {
     return `<input type="checkbox" class="form-control ${extClass} checkbox-input" ${state ? 'checked' : ''}/>`;
   }
 
+  removeFieldForStudent(array, fieldName) {
+    let filteredArray = [];
+
+    array.forEach((item) => {
+      delete item[fieldName];
+      filteredArray.push(item);
+    });
+
+    return filteredArray;
+  }
+
   /**
    * Send request to api for students
    * by selected filters
@@ -526,7 +538,6 @@ class StudentPageHandler {
       dataType: 'json',
       success: (data) => {
         this.students = data;
-        this.originStudents = data;
         this.initStudentsTable();
         this.$makeArchiveBtn.trigger('mouseover');
       }
@@ -540,7 +551,7 @@ class StudentPageHandler {
     $.ajax({
       url: url,
       type: 'post',
-      data: JSON.stringify(this.students),
+      data: JSON.stringify(this.removeFieldForStudent(this.students, 'selected')),
       contentType: 'application/json',
       dataType: 'json'
     });
