@@ -175,6 +175,9 @@ class StudentPageHandler {
     this.$selectAllBtn = $('.select-all');
     this.$continueBtn = $('.send-updated-data');
     this.$makeArchiveBtn = $('.send-make-archive');
+    this.$makeCsvEmailBtn = $('.send-make-csv-email');
+    this.$makeCsvImagineBtn = $('.send-make-csv-imagine');
+    this.$makeCsvOfficeBtn = $('.send-make-csv-office');
     this.$setBtns= $('.set-btn');
     this.$unsetBtns = $('.unset-btn');
   }
@@ -198,7 +201,19 @@ class StudentPageHandler {
     });
 
     this.$makeArchiveBtn.unbind('click').on('click', () => {
-      this.sendPostDataRequest('/person/zip');
+      this.sendPostDataRequest('/person/zip', 'students.zip');
+    });
+
+    this.$makeCsvEmailBtn.unbind('click').on('click', () => {
+    this.sendPostDataRequest('/person/email', 'emails.csv');
+    });
+
+    this.$makeCsvImagineBtn.unbind('click').on('click', () => {
+      this.sendPostDataRequest('/person/imagine', 'imagines.csv');
+    });
+
+    this.$makeCsvOfficeBtn.unbind('click').on('click', () => {
+      this.sendPostDataRequest('/person/office', 'offices.csv');
     });
 
     this.$continueBtn.unbind('mouseover').on('mouseover', () => {
@@ -519,11 +534,30 @@ class StudentPageHandler {
     let filteredArray = [];
 
     array.forEach((item) => {
-      delete item[fieldName];
-      filteredArray.push(item);
+      let newItem = {};
+
+      for (let name in item) {
+        if (name !== fieldName) {
+          Object.assign(newItem, item)
+        }
+      }
+
+      filteredArray.push(newItem);
     });
 
     return filteredArray;
+  }
+
+  getSelectedStudents() {
+    let selectedStudents = [];
+
+    this.students.forEach((item) => {
+      if (item.selected) {
+        selectedStudents.push(item);
+      }
+    });
+
+    return this.removeFieldForStudent(selectedStudents, 'selected');
   }
 
   /**
@@ -547,13 +581,27 @@ class StudentPageHandler {
   /**
    * Send request to api with handled students
    */
-  sendPostDataRequest(url) {
+  sendPostDataRequest(url, filename = null) {
     $.ajax({
       url: url,
       type: 'post',
-      data: JSON.stringify(this.removeFieldForStudent(this.students, 'selected')),
+      data: JSON.stringify(this.getSelectedStudents()),
       contentType: 'application/json',
-      dataType: 'json'
+      xhrFields: {
+        responseType: 'blob'
+      },
+      success: function (data) {
+        if (!filename) {
+          return false;
+        }
+
+        let a = document.createElement('a');
+        let url = window.URL.createObjectURL(data);
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
     });
   }
 
