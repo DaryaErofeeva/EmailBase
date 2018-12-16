@@ -78,7 +78,7 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         for (StudentEntity student : studentEntities) {
             String name = student.getGroupEntity().getFacultyEntity().getAbbr() + SLH + student.getGroupEntity()
                     .getCipher().replace(".", "_") + ".csv";
-            map.put(name, new StringBuilder(createEmailCsvString(student)));
+            map.put(name, new StringBuilder(createEmailCsvStringWithoutPassword(student)));
         }
         return map;
     }
@@ -154,6 +154,11 @@ public class FileGenerationServiceImpl implements FileGenerationService {
     private String createEmailCsvString(StudentEntity studentEntity) {
         return studentEntity.getName() + ',' + studentEntity.getSurname() + ',' + studentEntity.getLogin() + '@' +
                 domainsService.getEmailDomain() + ',' + studentEntity.getInitPassword() + EMAIL_CSV_TAIL + "\n";
+    }
+
+    private String createEmailCsvStringWithoutPassword(StudentEntity studentEntity) {
+        return studentEntity.getName() + ',' + studentEntity.getSurname() + ',' + studentEntity.getLogin() + '@' +
+                domainsService.getEmailDomain() + EMAIL_CSV_TAIL + "\n";
     }
 
     private String createImagineCsvString(StudentEntity studentEntity) {
