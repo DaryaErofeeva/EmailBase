@@ -28,6 +28,18 @@ class StudentController @Autowired constructor(
     fun updateStudents(@RequestBody studentsDTO: List<StudentDTO>) = studentService.updateStudents(studentsDTO)
 
     @ResponseBody
-    @GetMapping(ZIP_PAGE_URL, produces = ["application/zip"])
-    fun getArchive() = studentService.archive
+    @PostMapping(ZIP_PAGE_URL, produces = ["application/zip"])
+    fun getArchive(@RequestBody studentsDTO: List<StudentDTO>): ByteArray? = studentService.getArchive(studentsDTO)
+
+    @ResponseBody
+    @PostMapping(EMAIL_PAGE_URL, produces = ["text/csv"])
+    fun getEmailCSV(@RequestBody studentsDTO: List<StudentDTO>): ByteArray? = studentService.getEmailCsv(studentsDTO)
+
+    @ResponseBody
+    @PostMapping(OFFICE_PAGE_URL, produces = ["text/csv"])
+    fun getOfficeCSV(@RequestBody studentsDTO: List<StudentDTO>): ByteArray? = studentService.getOfficeCsv(studentsDTO)
+
+    @ResponseBody
+    @PostMapping(IMAGINE_PAGE_URL, produces = ["text/csv"])
+    fun getImagineCSV(@RequestBody studentsDTO: List<StudentDTO>): ByteArray? = studentService.getImagineCsv(studentsDTO)
 }

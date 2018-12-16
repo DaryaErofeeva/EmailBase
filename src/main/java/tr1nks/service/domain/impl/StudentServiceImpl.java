@@ -1,7 +1,6 @@
 package tr1nks.service.domain.impl;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import tr1nks.component.converter.impl.GroupEntityDTOConverter;
 import tr1nks.component.converter.impl.plural.StudentEntitiesDtosConverter;
@@ -80,8 +79,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public byte[] getArchive() {
-        return fileGenerationService.createPDFArchiveBytes(Collections.singletonList(studentRepository.getFirstByCode("Co31234")));
+    public byte[] getArchive(List<StudentDTO> students) {
+        return fileGenerationService.createPDFArchiveBytes(studentEntitiesDtosConverter.toEntity(students));
+    }
+
+    @Override
+    public byte[] getEmailCsv(List<StudentDTO> students) {
+        return fileGenerationService.createEmailsCsv(studentEntitiesDtosConverter.toEntity(students));
+    }
+
+    @Override
+    public byte[] getImagineCsv(List<StudentDTO> students) {
+        return fileGenerationService.createImagineCsv(studentEntitiesDtosConverter.toEntity(students));
+    }
+
+    @Override
+    public byte[] getOfficeCsv(List<StudentDTO> students) {
+        return fileGenerationService.createOfficeCsv(studentEntitiesDtosConverter.toEntity(students));
     }
 
     @NotNull
