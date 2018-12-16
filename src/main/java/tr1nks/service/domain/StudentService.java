@@ -1,7 +1,6 @@
 package tr1nks.service.domain;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import tr1nks.domain.dto.StudentDTO;
 import tr1nks.domain.entity.StudentEntity;
 
@@ -14,10 +13,16 @@ public interface StudentService {
 
     void save(List<StudentDTO> students, HttpSession httpSession);
 
+    byte[] getImagineCsv(List<StudentDTO> students);
+
+    byte[] getOfficeCsv(List<StudentDTO> students);
+
     @NotNull
     List<StudentDTO> getStudents(String facultyName, String group, Integer year);
 
-    byte[] getArchive();
+    byte[] getArchive(List<StudentDTO> students);
+
+    byte[] getEmailCsv(List<StudentDTO> students);
 
     boolean testEmail(String login);
 

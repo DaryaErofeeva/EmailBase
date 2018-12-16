@@ -11,4 +11,10 @@ public interface FileGenerationService {
     byte[] createPDFArchiveBytes(List<StudentEntity> studentEntities);
 
     byte[] createPdfBytes(StudentEntity studentEntity);
+
+    byte[] createEmailsCsv(List<StudentEntity> studentEntities);
+
+    byte[] createImagineCsv(List<StudentEntity> studentEntities);
+
+    byte[] createOfficeCsv(List<StudentEntity> studentEntities);
 }

@@ -11,7 +11,6 @@ import tr1nks.service.logic.PdfFromHtmlCreationService;
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -38,7 +37,8 @@ public class FileGenerationServiceImpl implements FileGenerationService {
     @Override
     public byte[] createPDFArchiveBytes(List<StudentEntity> studentEntities) {
         byte[] arr = null;
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+             ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             StringBuilder builder = new StringBuilder();
             for (StudentEntity student : studentEntities) {
                 builder.append((student).getGroupEntity().getFacultyEntity().getAbbr())
@@ -61,16 +61,11 @@ public class FileGenerationServiceImpl implements FileGenerationService {
     }
 
     private void writeCsvToArchive(List<StudentEntity> studentEntities, ZipOutputStream zipOutputStream) {
-        HashMap<String, StringBuilder> map = new HashMap<>();
-        for (StudentEntity student : studentEntities) {
-            String name = student.getGroupEntity().getFacultyEntity().getAbbr() + SLH + student.getGroupEntity()
-                    .getCipher().replace(".", "_") + ".csv";
-            map.put(name, new StringBuilder(createEmailCsvString(student)));
-        }
+        HashMap<String, StringBuilder> map = getContentForCSV(studentEntities);
         for (String name : map.keySet()) {
             try {
                 zipOutputStream.putNextEntry(new ZipEntry(name));
-                zipOutputStream.write(map.get(name).toString().getBytes("cp1251"));
+                zipOutputStream.write(map.get(name).toString().getBytes());
                 zipOutputStream.closeEntry();
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
@@ -78,9 +73,14 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         }
     }
 
-    private String createEmailCsvString(StudentEntity studentEntity) {
-        return studentEntity.getName() + ',' + studentEntity.getSurname() + ',' + studentEntity.getLogin() + '@' +
-                domainsService.getEmailDomain() + ',' + studentEntity.getInitPassword() + EMAIL_CSV_TAIL + "\n";
+    private HashMap<String, StringBuilder> getContentForCSV(List<StudentEntity> studentEntities) {
+        HashMap<String, StringBuilder> map = new HashMap<>();
+        for (StudentEntity student : studentEntities) {
+            String name = student.getGroupEntity().getFacultyEntity().getAbbr() + SLH + student.getGroupEntity()
+                    .getCipher().replace(".", "_") + ".csv";
+            map.put(name, new StringBuilder(createEmailCsvStringWithoutPassword(student)));
+        }
+        return map;
     }
 
     @Override
@@ -113,32 +113,52 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         }
     }
 
-    public byte[][] createFullPersonsCsvs(List<StudentEntity> studentEntities) {
-        byte[][] arr = new byte[3][];
+    @Override
+    public byte[] createEmailsCsv(List<StudentEntity> studentEntities) {
         StringBuilder builderEmail = new StringBuilder();
+        studentEntities.forEach(student -> builderEmail.append(createEmailCsvString(student)));
+        return createCsv(builderEmail);
+    }
+
+    @Override
+    public byte[] createImagineCsv(List<StudentEntity> studentEntities) {
         StringBuilder builderImagine = new StringBuilder();
+        studentEntities.forEach(student -> {
+            if (student.isImagine()) builderImagine.append(createImagineCsvString(student));
+        });
+        return createCsv(builderImagine);
+    }
+
+    @Override
+    public byte[] createOfficeCsv(List<StudentEntity> studentEntities) {
         StringBuilder builderOffice = new StringBuilder();
-        for (StudentEntity student : studentEntities) {
-            builderEmail.append(createEmailCsvString(student));
-            if (student.isImagine()) {
-                builderImagine.append(createImagineCsvString(student));
-            }
-            if (student.isOffice()) {
-                builderOffice.append(createOfficeCsvString(student));
-            }
+        studentEntities.forEach(student -> {
+            if (student.isOffice()) builderOffice.append(createOfficeCsvString(student));
+        });
+        return createCsv(builderOffice);
+    }
+
+    private byte[] createCsv(StringBuilder studentsBuilder) {
+        byte[] arr = null;
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            if (studentsBuilder.length() > 0)
+                byteArrayOutputStream.write(studentsBuilder.toString().getBytes());
+            arr = byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        try {
-            arr[0] = builderEmail.toString().getBytes("cp1251");
-            if (builderImagine.length() > 0) {
-                arr[1] = builderImagine.toString().getBytes();
-            }
-            if (builderOffice.length() > 0) {
-                arr[2] = builderOffice.toString().getBytes();
-            }
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage(), e);
-        }
+
         return arr;
+    }
+
+    private String createEmailCsvString(StudentEntity studentEntity) {
+        return studentEntity.getName() + ',' + studentEntity.getSurname() + ',' + studentEntity.getLogin() + '@' +
+                domainsService.getEmailDomain() + ',' + studentEntity.getInitPassword() + EMAIL_CSV_TAIL + "\n";
+    }
+
+    private String createEmailCsvStringWithoutPassword(StudentEntity studentEntity) {
+        return studentEntity.getName() + ',' + studentEntity.getSurname() + ',' + studentEntity.getLogin() + '@' +
+                domainsService.getEmailDomain() + EMAIL_CSV_TAIL + "\n";
     }
 
     private String createImagineCsvString(StudentEntity studentEntity) {
