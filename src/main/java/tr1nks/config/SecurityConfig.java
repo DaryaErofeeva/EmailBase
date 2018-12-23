@@ -17,7 +17,7 @@ import tr1nks.controller.parse.ParseController;
 import tr1nks.controller.person.PersonController;
 import tr1nks.constants.UserRole;
 import tr1nks.controller.person.StudentController;
-import tr1nks.emailtoout.EmailToOutController;
+import tr1nks.controller.emailtoout.EmailToOutController;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
