@@ -1,4 +1,4 @@
-package tr1nks.emailtoout
+package tr1nks.controller.emailtoout
 
 open class EmailToOutController {
     companion object {
