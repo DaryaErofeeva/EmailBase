@@ -1,11 +1,11 @@
-package tr1nks.emailtoout
+package tr1nks.controller.emailtoout
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import tr1nks.emailtoout.EmailToOutController.Companion.URL_BASE
+import tr1nks.controller.emailtoout.EmailToOutController.Companion.URL_BASE
 import tr1nks.service.domain.StudentService
 
 @RestController
