@@ -20,6 +20,9 @@ public interface StudentService {
     @NotNull
     List<StudentDTO> getStudents(String facultyName, String group, Integer year);
 
+    @NotNull
+    String getStudents(String name, String surname, String group);
+
     byte[] getArchive(List<StudentDTO> students);
 
     byte[] getEmailCsv(List<StudentDTO> students);

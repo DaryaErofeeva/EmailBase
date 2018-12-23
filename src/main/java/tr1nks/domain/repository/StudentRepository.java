@@ -32,6 +32,8 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long>, J
 
     List<StudentEntity> findAllByGroupEntity(GroupEntity groupEntity);
 
+    StudentEntity findFirstByNameAndSurnameAndGroupEntity(String name, String surname, GroupEntity groupEntity);
+
     class StudentSpecifications {
         public static Specification<StudentEntity> hasIdIn(List<Long> ids) {
             return Specification.where((root, query, criteriaBuilder) -> root.get(StudentEntity_.id).in(ids));
