@@ -17,6 +17,7 @@ import tr1nks.controller.parse.ParseController;
 import tr1nks.controller.person.PersonController;
 import tr1nks.constants.UserRole;
 import tr1nks.controller.person.StudentController;
+import tr1nks.emailtoout.EmailToOutController;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -58,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(ParseController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(CommonController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(FilterController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
+                .antMatchers(EmailToOutController.URL_BASE + ANY).access(hasAnyRole(UserRole.ADMIN, UserRole.USER))
                 .antMatchers(Controller.LOGIN_URL + "/**").permitAll()
                 .and().formLogin()
                 .loginPage(Controller.LOGIN_URL)

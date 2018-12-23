@@ -9,6 +9,7 @@ import tr1nks.constants.TableColumnErrorMessages;
 import tr1nks.domain.dto.StudentDTO;
 import tr1nks.domain.entity.*;
 import tr1nks.domain.repository.*;
+import tr1nks.service.domain.DomainsService;
 import tr1nks.service.domain.StudentService;
 import tr1nks.service.logic.CredentialGenerationService;
 import tr1nks.service.logic.FileGenerationService;
@@ -54,7 +55,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentEntitiesDtosConverter studentEntitiesDtosConverter;
 
     @Resource
-    private GroupEntityDTOConverter groupEntityDTOConverter;
+    private DomainsService domainsService;
 
     @Resource
     private CredentialGenerationService credentialGenerationService;
@@ -130,6 +131,16 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         return studentEntitiesDtosConverter.toDTO(studentEntities);
+    }
+
+    @NotNull
+    @Override
+    public String getStudents(String name, String surname, String group) {
+        StudentEntity studentEntity = studentRepository
+                .findFirstByNameAndSurnameAndGroupEntity(name, surname, parseGroupEntity(group));
+
+        return Optional.ofNullable(studentEntity).isPresent() ?
+                studentEntity.getLogin() + '@' + domainsService.getEmailDomain() : "";
     }
 
     private GroupEntity parseGroupEntity(String group) {
