@@ -78,7 +78,7 @@ public class FileGenerationServiceImpl implements FileGenerationService {
         for (StudentEntity student : studentEntities) {
             String name = student.getGroupEntity().getFacultyEntity().getAbbr() + SLH + student.getGroupEntity()
                     .getCipher().replace(".", "_") + ".csv";
-            map.put(name, new StringBuilder(createEmailCsvStringWithoutPassword(student)));
+            map.put(name, map.getOrDefault(name, new StringBuilder()).append(createEmailCsvStringWithoutPassword(student)));
         }
         return map;
     }
