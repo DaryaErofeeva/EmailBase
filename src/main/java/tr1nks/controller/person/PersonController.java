@@ -13,6 +13,7 @@ public interface PersonController extends Controller {
     String OFFICE_PAGE_URL = URL_BASE + "office";
     String STUDENT_VIEW_NAME = "student";
     String STUDENT_VIEW_URL = VIEW_BASE + STUDENT_VIEW_NAME;
+    String TEMPLATE_PAGE_URL = URL_BASE + "template";
 
     String ERROR_STUDENT_SESSION_NAME = "errorStudentList";
     String STUDENT_SESSION_NAME = "studentList";

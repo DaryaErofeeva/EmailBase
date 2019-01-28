@@ -2,6 +2,7 @@ package tr1nks.controller.person
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.util.ResourceUtils
 import org.springframework.web.bind.annotation.*
 import tr1nks.controller.person.PersonController.*
 import tr1nks.domain.dto.StudentDTO
@@ -42,4 +43,8 @@ class StudentController @Autowired constructor(
     @ResponseBody
     @PostMapping(IMAGINE_PAGE_URL, produces = ["text/csv"])
     fun getImagineCSV(@RequestBody studentsDTO: List<StudentDTO>): ByteArray? = studentService.getImagineCsv(studentsDTO)
+
+    @ResponseBody
+    @GetMapping(TEMPLATE_PAGE_URL, produces = ["text/csv"])
+    fun getTemplate(): ByteArray? = ResourceUtils.getFile("classpath:samples/StudentSample.csv").readBytes()
 }
