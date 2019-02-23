@@ -113,8 +113,8 @@ public class GroupEntity {
     public String getCipher() {
         return this.studyLevelEntity.getLevelId() + "." +
                 facultyEntity.getFacultyId() + "." +
-                specializationEntity.getSpecialityEntity().getSpecialityId() + "." +
                 specializationEntity.getSpecializationId() + "." +
+                specializationEntity.getSpecialityEntity().getSpecialityId() + "." +
                 year + "." +
                 num;
     }

@@ -146,7 +146,7 @@ public class StudentServiceImpl implements StudentService {
     private GroupEntity parseGroupEntity(String group) {
         List<Integer> groupCipherList = Stream.of(group.split("\\.")).map(Integer::valueOf).collect(Collectors.toList());
         return groupRepository.getTopByStudyLevelEntityLevelIdAndFacultyEntityFacultyIdAndSpecializationEntitySpecialityEntitySpecialityIdAndSpecializationEntitySpecializationIdAndYearAndNum(
-                groupCipherList.get(0), groupCipherList.get(1), groupCipherList.get(3), groupCipherList.get(2), groupCipherList.get(4), groupCipherList.get(5));
+                groupCipherList.get(0), groupCipherList.get(1),  groupCipherList.get(2), groupCipherList.get(3), groupCipherList.get(4), groupCipherList.get(5));
     }
 
     @NotNull

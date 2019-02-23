@@ -33,7 +33,7 @@ class StudentHelper {
     const y = groupInfo.year;
     const n = groupInfo.num;
 
-    return `${l}.${f}.${s}.${p}.${y}.${n}`;
+    return `${l}.${f}.${p}.${s}.${y}.${n}`;
   }
 
   setGroupNumber(id, groupNumber) {
